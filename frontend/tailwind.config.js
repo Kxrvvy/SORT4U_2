@@ -15,15 +15,19 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+  /** @type {import('tailwindcss').Config} */
+          },
+          secondary: {
+            DEFAULT: "hsl(var(--secondary))",
+            foreground: "hsl(var(--secondary-foreground))",
+          },
+          border: "hsl(var(--border))",
+          ring: "hsl(var(--ring))",
         },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        border: "hsl(var(--border))",
-        ring: "hsl(var(--ring))",
+        fontFamily: {
+        sans: ['Montserrat', 'sans-serif'],
+      },
       },
     },
-  },
-  plugins: [],
-};
+    plugins: [],
+  };
