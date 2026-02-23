@@ -23,41 +23,50 @@ export default function HomeDashboard() {
   */
 
   return (
-    <div className="flex min-h-screen bg-white font-sans text-gray-800 relative">
+    <div className="flex min-h-screen bg-white font-sans text-gray-800">
+      {/* Sidebar - Positioned fixed inside the component */}
       <Navbar />
 
-      <main className="flex-1 ml-64 p-8 lg:p-12 min-w-0">
-        <header className="mb-10 flex justify-between items-center">
-          <h1 className="text-3xl font-black uppercase tracking-tight text-gray-900">
+      {/* MAIN CONTENT AREA 
+          ml-0: Full width on mobile
+          lg:ml-64: Push content to the right only on large screens (desktop)
+      */}
+      <main className="flex-1 ml-0 lg:ml-64 p-6 md:p-10 lg:p-12 min-w-0 transition-all duration-300">
+        
+        <header className="mb-10 mt-12 lg:mt-0 flex justify-between items-center">
+          <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-gray-900">
             Your Dashboard
           </h1>
         </header>
 
         {/* --- TOP ROW --- */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8 mb-8">
+        {/* grid-cols-1: Stacked on mobile | xl:grid-cols-2: Side-by-side on extra large */}
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8 mb-8">
+          
           {/* Calorie Tracker */}
-          <section className="bg-gray-200 rounded-[2.5rem] p-8">
+          <section className="bg-gray-200 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 min-h-[200px]">
             <h2 className="text-xl font-bold mb-6 text-gray-700">Calorie Tracker</h2>
+            {/* Component content goes here */}
           </section>
 
           {/* Memory Lane */}
-          <section className="bg-gray-500 rounded-[2.5rem] p-8 text-white">
+          <section className="bg-gray-500 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 text-white min-h-[200px]">
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-xl font-bold flex items-center gap-2">
                 <Camera size={20} /> Memory Lane
               </h2>
               <div className="w-14 h-4 bg-gray-400 rounded-full" />
             </div>
+            {/* Component content goes here */}
           </section>
         </div>
 
         {/* --- BOTTOM ROW --- */}
-        <section className="bg-gray-200 rounded-[2.5rem] p-8">
+        <section className="bg-gray-200 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8">
           <h2 className="text-xl font-bold mb-6 text-gray-700">Budget Tracker</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
             <div className="space-y-8">
-              <div className="flex gap-4">
-              </div>
+               {/* Stat bars or info would go here */}
             </div>
           </div>
         </section>

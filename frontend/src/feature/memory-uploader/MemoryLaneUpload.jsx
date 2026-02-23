@@ -35,11 +35,13 @@ const MemoryLaneUpload = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white py-8 px-4" style={{ fontFamily: 'Comic Sans MS, cursive' }}>
+    /* Changed font-family from Comic Sans to font-sans */
+    <div className="min-h-screen bg-white py-8 px-4 font-sans text-gray-800">
       <div className="max-w-7xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2">Memory Lane</h1>
+          {/* Added font-black and uppercase to match dashboard header style */}
+          <h1 className="text-4xl font-black uppercase tracking-tight mb-2">Memory Lane</h1>
           <p className="text-xl text-gray-600 mb-10">
             Photo-triggered reminders for the things you always forget
           </p>
@@ -62,7 +64,7 @@ const MemoryLaneUpload = () => {
 
         {/* How it Works Section */}
         <div className="mt-12 bg-gray-200 rounded-3xl p-8 max-w-7xl mx-auto">
-          <h3 className="text-xl font-semibold mb-6">How it Works</h3>
+          <h3 className="text-xl font-bold uppercase mb-6">How it Works</h3>
           <div className="space-y-4 text-gray-800">
             <div>
               <p className="mb-2">
@@ -90,7 +92,7 @@ const MemoryLaneUpload = () => {
         {/* Show saved reminders count */}
         {savedReminders.length > 0 && (
           <div className="mt-6 text-center text-gray-600">
-            <p>
+            <p className="font-medium">
               {isLoadingMemories 
                 ? 'Loading memories...' 
                 : `Total saved reminders: ${savedReminders.length}`

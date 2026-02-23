@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react"; // Combined here
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Apple, Camera, Wallet, User } from "lucide-react";
+import { LayoutDashboard, Apple, Camera, Wallet, User, Menu, X } from "lucide-react"; // Added Menu and X icons
 import LogoImg from "../assets/Logo.png";
 import Profile from "./Profile"; 
 import Logout from "./Logout";
@@ -9,6 +9,7 @@ export default function Navbar() {
   const location = useLocation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu toggle
 
   const [userData, setUserData] = useState({
     name: "Guest",
@@ -22,12 +23,11 @@ export default function Navbar() {
     { path: "/budget-tracker", label: "Budget Tracker", icon: Wallet }
   ];
 
-    const loadUser = () => {
+  const loadUser = () => {
     const data = localStorage.getItem('user');
     if (data) {
       const storedUser = JSON.parse(data);
       setUserData({
-        // This checks for 'full_name' first, then 'name' as a fallback
         name: storedUser.full_name || storedUser.name || "User",
         avatar: storedUser.image || null 
       });
@@ -38,17 +38,46 @@ export default function Navbar() {
     loadUser();
   }, []);
 
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
+
   const handleProfileClose = () => {
     setIsProfileOpen(false);
-    loadUser(); // Refresh the name/image in the navbar
+    loadUser();
   };
 
   const isActive = (path) => location.pathname === path;
 
   return (
     <>
-      <div className="fixed left-0 top-0 h-screen w-64 bg-gray-900 text-white flex flex-col border-r border-gray-800 z-40">
+      {/* Mobile Toggle Button (Fixed Upper Right) */}
+      <button 
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-gray-900 text-white rounded-md border border-gray-700"
+      >
+        {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Mobile Overlay (Darkens background when menu is open) */}
+      {isMenuOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden" 
+          onClick={() => setIsMenuOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Container */}
+      <div className={`
+        fixed left-0 top-0 h-screen w-64 bg-gray-900 text-white flex flex-col border-r border-gray-800 z-40
+        transition-transform duration-300 ease-in-out
+        overflow-y-auto  {/* <-- ADD THIS TO ENABLE SCROLLING */}
+        ${isMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+      `}>
+
         <nav className="flex flex-col h-full">
+          
           {/* Logo Section */}
           <div className="p-3 border-b border-gray-800">
             <div className="flex items-center gap-3">
@@ -82,21 +111,13 @@ export default function Navbar() {
           </div>
 
           {/* Profile Section */}
-          <div className="p-6 border-t border-gray-800 bg-gray-900/50 mt-auto">
+          <div className="p-6 border-t border-gray-800 bg-gray-900/50 mt-auto shrink-0">
             <div className="flex items-center gap-3">
               <button 
                 onClick={() => setIsProfileOpen(true)}
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center overflow-hidden cursor-pointer"
+                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer transition-colors hover:bg-gray-700"
               >
-                {userData.avatar ? (
-                  <img 
-                    src={userData.avatar} 
-                    alt={userData.name} 
-                    className="w-full h-full object-cover" 
-                  />
-                ) : (
-                  <User className="w-6 h-6 text-gray-400" />
-                )}
+                <User className="w-6 h-6 text-gray-400" />
               </button>
               <div className="flex-1">
                 <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Hello!</p>
@@ -125,14 +146,9 @@ export default function Navbar() {
             setIsProfileOpen(true); 
           }} 
           onConfirm={() => {
-          // 1. THIS IS THE KEY: Wipe the storage
-          localStorage.removeItem('user'); // Clear user session
-          localStorage.removeItem('token'); // Clear auth token
-          localStorage.clear(); 
-          
-          // 2. Force a hard redirect to the login page
-          window.location.href = "/"; 
-        }}
+            localStorage.clear(); 
+            window.location.href = "/"; 
+          }}
         />
       )}
     </>
