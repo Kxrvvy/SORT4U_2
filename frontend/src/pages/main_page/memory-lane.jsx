@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Image as ImageIcon, Inbox, CheckCircle, Clock, Loader2, Camera } from 'lucide-react';
+import { Plus, Image as ImageIcon, Inbox, CheckCircle, Clock, Loader2, Camera, Trash2, CheckCircle2, SquarePen} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../feature/navbar';
 import axios from 'axios';
@@ -186,26 +186,28 @@ const handleEditSubmit = async () => {
                   </div>
 
                   {/* Hover Overlay with action buttons */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 rounded-2xl">
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 rounded-2xl px-6">
+                    <div className="flex gap-3 w-full">
+                        <button
+                            onClick={() => deleteMemory(memory.id)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 hover:text-red-600 transition-colors"
+                        >
+                            <Trash2 size={16} /> Delete
+                        </button>
+                        <button
+                            onClick={() => toggleComplete(memory.id, memory.is_completed)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-50 hover:text-green-600 transition-colors"
+                        >
+                            <CheckCircle2 size={16} /> {memory.is_completed ? 'Mark Pending' : 'Complete'}
+                        </button>
+                    </div>
                     <button
-                      onClick={() => deleteMemory(memory.id)}
-                      className="flex items-center gap-2 bg-white text-gray-800 px-6 py-2 rounded-lg text-sm font-semibold w-40 justify-center hover:bg-red-50 hover:text-red-600 transition-colors"
+                        onClick={() => openEditModal(memory)}
+                        className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:text-blue-600 transition-colors"
                     >
-                      🗑 Delete
+                        <SquarePen size={16} /> Edit Memory
                     </button>
-                    <button
-                      onClick={() => toggleComplete(memory.id, memory.is_completed)}
-                      className="flex items-center gap-2 bg-white text-gray-800 px-6 py-2 rounded-lg text-sm font-semibold w-40 justify-center hover:bg-green-50 hover:text-green-600 transition-colors"
-                    >
-                      ✅ {memory.is_completed ? 'Mark Pending' : 'Complete'}
-                    </button>
-                    <button
-                      onClick={() => openEditModal(memory)}
-                      className="flex items-center gap-2 bg-white text-gray-800 px-6 py-2 rounded-lg text-sm font-semibold w-40 justify-center hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                    >
-                      ✏️ Edit Memory
-                    </button>
-                  </div>
+                </div>
                 </div>
               ))}
             </div>
@@ -227,17 +229,17 @@ const handleEditSubmit = async () => {
             {/* Camera Icon */}
             <div className="flex justify-center mb-6">
               <label className="cursor-pointer">
-                  {imagePreview ? (
-                      <img
-                          src={imagePreview}
-                          alt="preview"
-                          className="w-32 h-32 object-cover rounded-xl border-2 border-gray-200 hover:opacity-80 transition-opacity"
-                      />
-                  ) : (
-                      <div className="bg-gray-100 hover:bg-gray-200 transition-colors rounded-full p-4">
-                          <Camera size={32} className="text-gray-600" />
-                      </div>
-                  )}
+               {imagePreview ? (
+                    <img
+                        src={imagePreview}
+                        alt="preview"
+                        className="w-100 h-48 object-cover rounded-xl border-2 border-gray-200 hover:opacity-80 transition-opacity"
+                    />
+                ) : (
+                    <div className="bg-gray-100 hover:bg-gray-200 transition-colors rounded-full p-4">
+                        <Camera size={32} className="text-gray-600" />
+                    </div>
+                )}
                   <input
                       type="file"
                       accept="image/*"
