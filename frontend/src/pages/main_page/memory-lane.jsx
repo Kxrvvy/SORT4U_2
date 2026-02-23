@@ -233,7 +233,7 @@ const handleEditSubmit = async () => {
                     <img
                         src={imagePreview}
                         alt="preview"
-                        className="w-full h-48 object-cover rounded-t-xl border-2 border-gray-200 hover:opacity-80 transition-opacity"
+                        className="w-full h-45 object-cover rounded-t-xl border-2 border-gray-200 hover:opacity-80 transition-opacity"
                     />
                 ) : (
                   <div className="flex justify-center py-6">
