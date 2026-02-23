@@ -227,17 +227,19 @@ const handleEditSubmit = async () => {
           <div className="bg-white rounded-2xl p-8 w-full max-w-md mx-4 shadow-2xl">
 
             {/* Camera Icon */}
-            <div className="flex justify-center mb-6">
-              <label className="cursor-pointer">
+            <div className="flex justify-center -mx-8 -mt-8 mb-6">
+              <label className="cursor-pointer w-full">
                {imagePreview ? (
                     <img
                         src={imagePreview}
                         alt="preview"
-                        className="w-100 h-48 object-cover rounded-xl border-2 border-gray-200 hover:opacity-80 transition-opacity"
+                        className="w-full h-48 object-cover rounded-t-xl border-2 border-gray-200 hover:opacity-80 transition-opacity"
                     />
                 ) : (
+                  <div className="flex justify-center py-6">
                     <div className="bg-gray-100 hover:bg-gray-200 transition-colors rounded-full p-4">
                         <Camera size={32} className="text-gray-600" />
+                    </div>
                     </div>
                 )}
                   <input
