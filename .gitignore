@@ -1,12 +1,41 @@
-# Python
+# ── Python ────────────────────────────────────────────────
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Database
+# ── Virtual environment ───────────────────────────────────
+venv/
+.venv/
+env/
+
+# ── Environment variables / secrets ───────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Database ──────────────────────────────────────────────
 *.db
+*.sqlite
+*.sqlite3
 
-# Mac
-.DS_Store
+# ── Uploaded files ────────────────────────────────────────
+backend/app/uploads/
 
-# Node
+# ── Frontend build output ─────────────────────────────────
+frontend/dist/
+frontend/dist-ssr/
+
+# ── Node ──────────────────────────────────────────────────
 node_modules/
+*.log
+npm-debug.log*
+
+# ── OS files ──────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── IDE ───────────────────────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea/
