@@ -5,7 +5,7 @@ import Navbar from '../../feature/navbar';
 import axios from 'axios';
 
 export default function MemoryLane() {
-  const API_BASE = 'http://localhost:8000/memory';
+  const API_BASE = '/memory/';
   const navigate = useNavigate();
   const [memories, setMemories] = useState([]);
   const [filter, setFilter] = useState('all');
