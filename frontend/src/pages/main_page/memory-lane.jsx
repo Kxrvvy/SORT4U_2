@@ -5,7 +5,7 @@ import Navbar from '../../feature/navbar';
 import axios from 'axios';
 
 export default function MemoryLane() {
-  const API_BASE = '/memory/';
+  const API_BASE = 'http://localhost:8000/memory';
   const navigate = useNavigate();
   const [memories, setMemories] = useState([]);
   const [filter, setFilter] = useState('all');
@@ -72,6 +72,7 @@ export default function MemoryLane() {
   };
 
 const openEditModal = (memory) => {
+    console.log("memory object:", memory);
     setEditingMemory(memory);
     setEditForm({
       description: memory.description || '',
@@ -98,8 +99,7 @@ const handleEditSubmit = async () => {
       if (editForm.tags) formData.append('tags', editForm.tags);
       if (editForm.image) formData.append('image', editForm.image); // only if new image selected
 
-      const response = await axios.put(`${API_BASE}/${editingMemory.id}`, formData, {
-        headers: {
+    const response = await axios.put(`http://localhost:8000/memory/${editingMemory.id}`, formData, {        headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
         },
