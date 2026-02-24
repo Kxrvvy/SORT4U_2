@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Image as ImageIcon, Inbox, CheckCircle, Clock, Loader2 } from 'lucide-react';
+import { Plus, Image as ImageIcon, Inbox, CheckCircle, Clock, Loader2, Camera, Trash2, CheckCircle2, SquarePen} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../feature/navbar';
 // import EditMemoryModal from './EditMemoryModal'; // Uncomment this once the file is available
@@ -68,14 +68,45 @@ export default function MemoryLane() {
     }
   };
 
-  // Logic to open modal (Kept active as it only updates internal state)
-  const handleEditClick = (memory) => {
-    setSelectedMemory(memory);
-    setIsEditOpen(true);
+const openEditModal = (memory) => {
+    console.log("memory object:", memory);
+    setEditingMemory(memory);
+    setEditForm({
+      description: memory.description || '',
+      location: memory.location || '',
+      person: memory.person || '',
+      tags: memory.tags || '',
+      image: null,
+    });
+    setImagePreview(memory.image_url || null);
   };
 
-  const handleUpdateSuccess = (updatedMemory) => {
-    setMemories(prev => prev.map(m => (m.id === updatedMemory.id ? updatedMemory : m)));
+  const [imagePreview, setImagePreview] = useState(null);
+  
+  const closeEditModal = () => {
+    setEditingMemory(null);
+  };
+
+const handleEditSubmit = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('description', editForm.description);
+      if (editForm.location) formData.append('location', editForm.location);
+      if (editForm.person) formData.append('person', editForm.person);
+      if (editForm.tags) formData.append('tags', editForm.tags);
+      if (editForm.image) formData.append('image', editForm.image); // only if new image selected
+
+    const response = await axios.put(`http://localhost:8000/memory/${editingMemory.id}`, formData, {        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      setMemories(prev => prev.map(m => (m.id === editingMemory.id ? response.data : m)));
+      closeEditModal();
+    } catch (error) {
+      console.error("Edit failed:", error);
+    }
   };
 
   const filteredMemories = memories.filter(m => {
@@ -203,27 +234,31 @@ export default function MemoryLane() {
                         )}
                       </div>
                     </div>
-
-                    <div className="mt-6 flex justify-between items-end">
-                      <span className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-md text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                        <Clock size={12} strokeWidth={3} />
-                        {memory.created_at ? new Date(memory.created_at).toLocaleDateString() : 'Just now'}
-                      </span>
-
-                      {memory.tags && (
-                        <div className="flex flex-wrap justify-end gap-1 max-w-[50%]">
-                          {memory.tags.split(',').map((tag, index) => (
-                            <span 
-                              key={index} 
-                              className="bg-gray-100 text-gray-600 text-[9px] font-black uppercase px-2 py-0.5 rounded-full border border-gray-200"
-                            >
-                              #{tag.trim()}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
                   </div>
+
+                  {/* Hover Overlay with action buttons */}
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 rounded-2xl px-6">
+                    <div className="flex gap-3 w-full">
+                        <button
+                            onClick={() => deleteMemory(memory.id)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 hover:text-red-600 transition-colors"
+                        >
+                            <Trash2 size={16} /> Delete
+                        </button>
+                        <button
+                            onClick={() => toggleComplete(memory.id, memory.is_completed)}
+                            className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-50 hover:text-green-600 transition-colors"
+                        >
+                            <CheckCircle2 size={16} /> {memory.is_completed ? 'Mark Pending' : 'Complete'}
+                        </button>
+                    </div>
+                    <button
+                        onClick={() => openEditModal(memory)}
+                        className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    >
+                        <SquarePen size={16} /> Edit Memory
+                    </button>
+                </div>
                 </div>
               ))}
             </div>
