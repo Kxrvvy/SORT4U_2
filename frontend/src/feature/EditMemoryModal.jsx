@@ -10,11 +10,8 @@ export default function EditMemoryModal({ isOpen, memory, onClose, onUpdate }) {
     tags: '',
   });
   const [imagePreview, setImagePreview] = useState(null);
+  const [imageFile, setImageFile] = useState(null);
   const [loading, setLoading] = useState(false);
-
-  const getAuthHeader = () => ({
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
-  });
 
   useEffect(() => {
     if (memory) {
@@ -25,19 +22,26 @@ export default function EditMemoryModal({ isOpen, memory, onClose, onUpdate }) {
         tags: memory.tags || '',
       });
       setImagePreview(memory.image_url || null);
+      setImageFile(null);
     }
   }, [memory]);
 
   const handleEditSubmit = async () => {
     setLoading(true);
     try {
-      const response = await axios.put(`/memory/${memory.id}`, {
-        description: editForm.description,
-        image_url: memory.image_url,
-        location: editForm.location || null,
-        person: editForm.person || null,
-        tags: editForm.tags || null,
-      }, getAuthHeader());
+      const formData = new FormData();
+      formData.append('description', editForm.description);
+      if (editForm.location) formData.append('location', editForm.location);
+      if (editForm.person) formData.append('person', editForm.person);
+      if (editForm.tags) formData.append('tags', editForm.tags);
+      if (imageFile) formData.append('image', imageFile);
+
+      const response = await axios.put(`/memory/${memory.id}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       onUpdate(response.data);
       onClose();
     } catch (error) {
@@ -75,7 +79,10 @@ export default function EditMemoryModal({ isOpen, memory, onClose, onUpdate }) {
               className="hidden"
               onChange={(e) => {
                 const file = e.target.files[0];
-                if (file) setImagePreview(URL.createObjectURL(file));
+                if (file) {
+                  setImageFile(file);
+                  setImagePreview(URL.createObjectURL(file));
+                }
               }}
             />
           </label>
