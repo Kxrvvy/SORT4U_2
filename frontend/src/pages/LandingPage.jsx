@@ -134,7 +134,7 @@ export default function LandingPage() {
             </section>
 
             {/* Why Choose SORT4U Section */}
-            <section className="w-full min-h-screen lg:min-h-225 bg-white flex flex-col items-center justify-center px-4 sm:px-6 py-12 md:py-20">
+            <section className="w-full min-h-screen lg:min-h-225 bg-gradient-to-b from-white via-white to-[#99cbda] flex flex-col items-center justify-center px-4 sm:px-6 py-12 md:py-20">
                 <div className="max-w-6xl mx-auto text-center">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-16">Why Choose SORT4U?</h2>
 

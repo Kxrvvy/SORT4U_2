@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import PictureUpload from './PictureUpload';
+import { useNavigate } from 'react-router-dom';
 import { createMemory } from '../../services/memoryApi';
 
 const MemoryUploadContainer = ({ onSave }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     image: null,
     whatToRemember: '',
@@ -66,8 +68,7 @@ const MemoryUploadContainer = ({ onSave }) => {
           onSave(savedMemory);
         }
         
-        // Show success message
-        alert('Memory Reminder saved successfully!');
+        navigate('/memory-lane'); // Redirect to Memory Lane page
         
         // Reset form after successful save
         setFormData({
@@ -89,7 +90,7 @@ const MemoryUploadContainer = ({ onSave }) => {
   };
 
   return (
-    <div className="bg-gray-300 rounded-3xl p-9" style={{ fontFamily: 'Comic Sans MS, cursive' }}>
+      <div className="bg-gray-300 rounded-3xl p-9 font-sans">
       <h2 className="text-2xl font-semibold mb-9">Create Memory Reminder</h2>
       
       <form onSubmit={handleSubmit} className="space-y-5">
