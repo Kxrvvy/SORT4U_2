@@ -2,7 +2,10 @@
 __pycache__/
 *.pyc
 *.pyo
+<<<<<<< edit_memory
+=======
 *.pyd
+>>>>>>> main
 
 # ── Virtual environment ───────────────────────────────────
 venv/
@@ -28,6 +31,9 @@ frontend/dist-ssr/
 
 # ── Node ──────────────────────────────────────────────────
 node_modules/
+<<<<<<< edit_memory
+backend/sort4u.db
+=======
 *.log
 npm-debug.log*
 
@@ -39,3 +45,4 @@ Thumbs.db
 .vscode/*
 !.vscode/extensions.json
 .idea/
+>>>>>>> main

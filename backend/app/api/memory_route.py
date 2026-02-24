@@ -63,9 +63,13 @@ def get_memory(
 
 # UPDATE — Edit a memory
 @router.put("/{memory_id}", response_model=MemoryResponse)
-def update_memory(
+async def update_memory(
     memory_id: int,
-    memory_data: MemoryUpdate,
+    description: str = Form(...),
+    location: Optional[str] = Form(None),
+    person: Optional[str] = Form(None),
+    tags: Optional[str] = Form(None),
+    image: Optional[UploadFile] = File(None),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
@@ -73,11 +77,14 @@ def update_memory(
     if not memory:
         raise HTTPException(status_code=404, detail="Memory not found")
 
-    memory.description = memory_data.description
-    memory.image_url = memory_data.image_url
-    memory.location = memory_data.location
-    memory.person = memory_data.person
-    memory.tags = memory_data.tags
+    memory.description = description
+    memory.location = location
+    memory.person = person
+    memory.tags = tags
+
+    # Only update image if a new one was uploaded
+    if image:
+        memory.image_url = await save_upload_file(image)
 
     db.commit()
     db.refresh(memory)
