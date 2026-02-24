@@ -14,7 +14,7 @@ class Memory(Base):
     description = Column(Text, nullable = False)
     location = Column(String(255), nullable = True)
     person = Column(String(255), nullable = True)
-    tags = Column(String(255), nullable = True)
+    tags = Column(Text, nullable = True)
     
     is_completed = Column(Boolean, default = False)
     

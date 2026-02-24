@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Plus, Image as ImageIcon, Inbox, CheckCircle, Clock, Loader2, Camera, Trash2, CheckCircle2, SquarePen} from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../../feature/navbar';
-// import EditMemoryModal from './EditMemoryModal'; // Uncomment this once the file is available
+import EditMemoryModal from '../../feature/EditMemoryModal';
 import axios from 'axios';
 
 export default function MemoryLane() {
@@ -48,7 +48,7 @@ export default function MemoryLane() {
   // Actions
   const toggleComplete = async (id, currentStatus) => {
     try {
-      const response = await axios.patch(`${API_BASE}/${id}/complete`, 
+      const response = await axios.patch(`${API_BASE}${id}/complete`, 
         { is_completed: !currentStatus }, 
         getAuthHeader()
       );
@@ -61,7 +61,7 @@ export default function MemoryLane() {
   const deleteMemory = async (id) => {
     if (!window.confirm("Delete this memory?")) return;
     try {
-      await axios.delete(`${API_BASE}/${id}`, getAuthHeader());
+      await axios.delete(`${API_BASE}${id}`, getAuthHeader());
       setMemories(prev => prev.filter(m => m.id !== id));
     } catch (error) {
       console.error("Delete failed:", error);
@@ -276,14 +276,12 @@ const handleEditSubmit = async () => {
         </section>
       </main>
 
-      {/* MODAL COMMENTED OUT UNTIL FILE ACCESSIBLE */}
-      {/* <EditMemoryModal 
-        isOpen={isEditOpen} 
-        memory={selectedMemory} 
-        onClose={() => setIsEditOpen(false)} 
+      <EditMemoryModal
+        isOpen={isEditOpen}
+        memory={selectedMemory}
+        onClose={() => setIsEditOpen(false)}
         onUpdate={handleUpdateSuccess}
-      /> 
-      */}
+      />
 
       <style dangerouslySetInnerHTML={{ __html: `
         body:has(.translate-x-0) #mobile-add-btn {

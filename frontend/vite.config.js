@@ -18,6 +18,10 @@ export default defineConfig({
       '/auth': 'http://localhost:8000',
       '/memory/': 'http://localhost:8000',
       '/app/uploads': 'http://localhost:8000',
+      '/analytics': 'http://localhost:8000',
+      '/transactions': 'http://localhost:8000',
+      '/categories': 'http://localhost:8000',
+      '/budget/': 'http://localhost:8000',
     },
   },
 })
