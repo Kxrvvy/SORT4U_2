@@ -11,3 +11,4 @@ __pycache__/
 
 # Node
 node_modules/
+backend/sort4u.db
