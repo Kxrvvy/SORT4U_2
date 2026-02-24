@@ -13,7 +13,7 @@ pwd_context = CryptContext(schemes=["bcrypt"])
 
 SECRET_KEY = "e8eb6ce11e2fa374beeeb744f31035e641bf295177e3d7220ae922e6e3a0d0ae"
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
+ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 
 def verify_password(plain_password: str, hash_password: str) -> bool:

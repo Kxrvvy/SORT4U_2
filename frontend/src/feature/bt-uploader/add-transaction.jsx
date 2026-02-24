@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react';
 
-export default function AddTransactionModal({ isOpen, onClose, onConfirm, currentSummary }) {
+export default function AddTransactionModal({ isOpen, onClose, onConfirm, categories = [] }) {
   const [type, setType] = useState('expense'); 
   
   const initialFormState = { 
     description: '', 
     amount: '', 
     category: '', 
-    date: '' 
+    transaction_date: '' 
   };
 
   const [formData, setFormData] = useState(initialFormState);
 
-  const expenseCategories = [
-    "Food & Dining", "Transportation", "Entertainment", "Utilities",
-    "Health & Fitness", "Education", "Shopping", "Travel", "Personal Care", "Other"
-  ];
+  // Filter categories by type
+  const currentCategories = categories.filter(cat => cat.type === type);
 
-  const incomeCategories = [
-    "Salary", "Allowance", "Owned Money", "Other"
-  ];
-
+  // Reset category when type changes
   useEffect(() => {
     setFormData(prev => ({ ...prev, category: '' }));
   }, [type]);
@@ -28,121 +23,152 @@ export default function AddTransactionModal({ isOpen, onClose, onConfirm, curren
   if (!isOpen) return null;
 
   const handleConfirm = () => {
-    const amt = parseFloat(formData.amount) || 0;
-    
-    const currentIncome = parseFloat(currentSummary.income) || 0;
-    const currentExpense = parseFloat(currentSummary.expense) || 0;
-    const currentBudget = parseFloat(currentSummary.budget) || 0;
-
-    let updatedSummary;
-    if (type === 'income') {
-      const newBudget = currentBudget + amt;
-      updatedSummary = {
-        ...currentSummary,
-        income: currentIncome + amt,
-        budget: newBudget,
-        savings: newBudget
-      };
-    } else {
-      const newBudget = currentBudget - amt;
-      updatedSummary = {
-        ...currentSummary,
-        expense: currentExpense + amt,
-        budget: newBudget,
-        savings: newBudget
-      };
+    // Validation
+    if (!formData.description.trim()) {
+      alert("Please enter a description.");
+      return;
     }
 
-    const newTx = { 
-      name: formData.description, 
-      amount: amt, 
+    if (!formData.amount || parseFloat(formData.amount) <= 0) {
+      alert("Please enter a valid amount.");
+      return;
+    }
+
+    if (!formData.category) {
+      alert("Please select a category.");
+      return;
+    }
+
+    // Prepare data for backend
+    const transactionData = {
+      description: formData.description.trim(),
+      amount: formData.amount,
       type: type,
-      category: formData.category 
+      category: formData.category, // This is category_id
+      transaction_date: formData.transaction_date || undefined
     };
 
-    onConfirm(updatedSummary, newTx);
-    
+    // Call parent handler
+    onConfirm(transactionData);
+
+    // Reset form
     setFormData(initialFormState);
     setType('expense');
   };
 
   const handleClose = () => {
     setFormData(initialFormState);
+    setType('expense');
     onClose();
   };
 
-  const currentCategories = type === 'expense' ? expenseCategories : incomeCategories;
-
   return (
-    // Added p-4 to the backdrop to ensure the modal doesn't touch the screen edges on mobile
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
-      {/* 1. Changed w-[450px] to w-full max-w-[450px]
-          2. Changed p-10 to p-6 (mobile) and md:p-10 (desktop)
-          3. Added overflow-y-auto and max-h-full for small vertical screens
-      */}
       <div className="w-full max-w-[450px] max-h-full overflow-y-auto rounded-[30px] bg-[#cbcbcb] p-6 md:p-10 shadow-2xl font-sans">
         <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-6">Add Transaction</h2>
 
+        {/* Type Toggle */}
         <div className="flex bg-[#d9d9d9] rounded-xl p-1 mb-8">
           <button 
             onClick={() => setType('expense')}
             className={`flex-1 py-2 rounded-lg font-bold transition-all text-sm md:text-base ${
               type === 'expense' ? 'bg-[#a3a3a3] text-gray-800' : 'text-gray-500'
             }`}
-          >Expense</button>
+          >
+            Expense
+          </button>
           <button 
             onClick={() => setType('income')}
             className={`flex-1 py-2 rounded-lg font-bold transition-all text-sm md:text-base ${
               type === 'income' ? 'bg-[#a3a3a3] text-gray-800' : 'text-gray-500'
             }`}
-          >Income</button>
+          >
+            Income
+          </button>
         </div>
 
         <div className="space-y-4">
+          {/* Description */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Description</label>
+            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">
+              Description <span className="text-red-500">*</span>
+            </label>
             <input 
               className="w-full bg-[#d9d9d9] p-3 rounded-xl outline-none text-gray-700 text-sm md:text-base" 
+              placeholder="e.g., Coffee at Starbucks"
               value={formData.description}
               onChange={(e) => setFormData({...formData, description: e.target.value})} 
             />
           </div>
           
+          {/* Amount */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Amount</label>
+            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">
+              Amount <span className="text-red-500">*</span>
+            </label>
             <input 
               type="number" 
               className="w-full bg-[#d9d9d9] p-3 rounded-xl outline-none text-gray-700 text-sm md:text-base" 
+              placeholder="0.00"
+              min="0"
+              step="0.01"
               value={formData.amount}
               onChange={(e) => setFormData({...formData, amount: e.target.value})} 
             />
           </div>
 
+          {/* Category */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Category</label>
+            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">
+              Category <span className="text-red-500">*</span>
+            </label>
             <select 
-              className="w-full bg-[#d9d9d9] p-3 rounded-xl outline-none text-gray-700 font-medium appearance-none text-sm md:text-base"
+              className="w-full bg-[#d9d9d9] p-3 rounded-xl outline-none text-gray-700 font-medium text-sm md:text-base"
               value={formData.category}
               onChange={(e) => setFormData({...formData, category: e.target.value})}
             >
               <option value="">Select Category</option>
-              {currentCategories.map((cat) => (
-                <option key={cat} value={cat}>{cat}</option>
-              ))}
+              {currentCategories.length > 0 ? (
+                currentCategories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))
+              ) : (
+                <option value="" disabled>
+                  {categories.length === 0 
+                    ? 'Loading categories...' 
+                    : `No ${type} categories available`}
+                </option>
+              )}
             </select>
+            
+            {/* Debug info - remove after fixing */}
+            {currentCategories.length === 0 && categories.length > 0 && (
+              <p className="text-xs text-red-600 mt-1 ml-1">
+                No {type} categories found. Available: {categories.map(c => c.name).join(', ')}
+              </p>
+            )}
           </div>
 
+          {/* Date */}
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">Date</label>
+            <label className="block text-sm font-bold text-gray-700 mb-1 ml-1">
+              Date (Optional)
+            </label>
             <input 
               type="date"
-              className="w-full bg-[#d9d9d9] p-3 rounded-xl outline-none text-gray-700 uppercase text-xs" 
-              value={formData.date}
-              onChange={(e) => setFormData({...formData, date: e.target.value})} 
+              className="w-full bg-[#d9d9d9] p-3 rounded-xl outline-none text-gray-700 text-xs" 
+              value={formData.transaction_date}
+              onChange={(e) => setFormData({...formData, transaction_date: e.target.value})} 
             />
+            <p className="text-xs text-gray-600 mt-1 ml-1">
+              Leave blank to use today's date
+            </p>
           </div>
         </div>
 
+        {/* Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-8 md:mt-10">
           <button 
             onClick={handleClose} 
@@ -152,7 +178,7 @@ export default function AddTransactionModal({ isOpen, onClose, onConfirm, curren
           </button>
           <button 
             onClick={handleConfirm} 
-            className="order-1 sm:order-2 flex-1 py-2.5 bg-[#f5f5f5] text-gray-800 rounded-xl font-bold shadow-md hover:bg-white transition-colors text-sm md:text-base"
+            className="order-1 sm:order-2 flex-1 py-2.5 bg-gray-800 text-white rounded-xl font-bold shadow-md hover:bg-gray-700 transition-colors text-sm md:text-base"
           >
             Confirm
           </button>

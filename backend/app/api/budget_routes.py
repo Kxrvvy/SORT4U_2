@@ -57,23 +57,25 @@ async def create_budget(
         "Other"
     ]
 
-    for category_name in expense_Categories:
-        category = Category(
-            user_id=None,
-            name=category_name,
-            type="expense",
-            is_predefined=True
-        )
-        db.add(category)
+    existing_predefined = db.query(Category).filter(Category.is_predefined == True).first()
+    if not existing_predefined:
+        for category_name in expense_Categories:
+            category = Category(
+                user_id=None,
+                name=category_name,
+                type="expense",
+                is_predefined=True
+            )
+            db.add(category)
 
-    for category_name in income_Categories:
-        category = Category(
-            user_id=None,
-            name=category_name,
-            type="income",
-            is_predefined=True
-        )
-        db.add(category)
+        for category_name in income_Categories:
+            category = Category(
+                user_id=None,
+                name=category_name,
+                type="income",
+                is_predefined=True
+            )
+            db.add(category)
 
     # return budget
     db.add(budget)
