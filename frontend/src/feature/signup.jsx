@@ -21,7 +21,7 @@ const [apiError, setApiError] = useState('');
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
     if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
-  };``
+  };
 
   const validateForm = () => {
     const newErrors = {};
