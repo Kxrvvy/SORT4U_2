@@ -288,7 +288,7 @@ export default function BudgetTracker() {
                         <span>{new Date(t.transaction_date).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <span className={`font-bold text-sm ${t.type === 'income' ? 'text-green-300' : 'text-white'}`}>
+                    <span className={`font-bold text-sm ${t.type === 'income' ? 'text-green-300' : 'text-red-600'}`}>
                       {t.type === 'income' ? '+' : '-'}₱{Number(t.amount).toLocaleString()}
                     </span>
                   </div>
