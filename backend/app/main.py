@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from app.api import routes, memory_route, budget_routes, category_routes, transaction_route, analytics_routes
 from app.database import engine, Base
 from app.api import profile_route
+from app.api import dashboard_route
 import os
 
 # Create Database tables
@@ -27,6 +28,7 @@ app.include_router(budget_routes.router)
 app.include_router(category_routes.router)
 app.include_router(transaction_route.router)
 app.include_router(analytics_routes.router)
+app.include_router(dashboard_route.router)
 
 # Serve uploaded files
 os.makedirs("app/uploads", exist_ok=True)

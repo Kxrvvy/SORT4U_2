@@ -22,6 +22,7 @@ export default defineConfig({
       '/transactions': 'http://localhost:8000',
       '/categories': 'http://localhost:8000',
       '/budget/': 'http://localhost:8000',
+      '/dashboard/overview': 'http://localhost:8000',
     },
   },
 })

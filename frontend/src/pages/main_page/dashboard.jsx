@@ -1,87 +1,114 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../../feature/navbar';
-import { TrendingUp, Camera } from 'lucide-react';
+import {useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+import Navbar from './../../feature/navbar';
+import useInactivityTimeout from '@/hooks/useInactivityTimeout';
+import CalorieTrackerCard from '@/feature/home_dashboard/CalorieTrackerCard';
+import BudgetTrackerCard from '@/feature/home_dashboard/BudgetTrackerCard';
+import MemoryLaneCard from '@/feature/home_dashboard/MemoryLaneCard';
+
 
 export default function HomeDashboard() {
+  const navigate = useNavigate();
+  useInactivityTimeout();
+  const [loading, setLoading] = useState(true);
+  const [dashboard, setDashboard] = useState(null);
+  const [error, setError] = useState(null);
 
-  // --- BACKEND READY STATE(KUHA SA AI) ---
-  // This object structure allows you to easily plug in a fetch() call
-  const [userData, setUserData] = useState({
-    calories: [40, 60, 40, 75], // Percentages for the bars
-    budget: [90, 45, 30, 85],
-    memories: [1, 2, 3, 4],     // Placeholder for memory items
-    name: "John Doe"            // Can be passed to Profile component if needed
+
+  const authHeader = () => ({
+    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    'Content-type': 'application/json'
   });
 
-  // Example of where you'd put your backend logic:
-  /*
   useEffect(() => {
-    fetch('/api/user/dashboard-data')
-      .then(res => res.json())
-      .then(data => setUserData(data));
-  }, []);
-  */
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
 
+    const fetchDashboard = async () => {
+      try {
+        const response = await fetch('/dashboard/overview', {
+          headers: authHeader()
+        })
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch dashboard data');
+        }
+
+        const data = await response.json();
+        setDashboard(data);
+      } catch(error){
+        console.error('Error fetching dashboard:', error);
+        setError('Unable to load dashboard data. Please try again later.');
+      } finally {
+        setLoading (false);
+      }
+    };
+
+    fetchDashboard();
+  }, [navigate]);
+
+
+if(loading){
   return (
-    <div className="flex min-h-screen bg-white font-sans text-gray-800">
-      {/* Sidebar - Positioned fixed inside the component */}
-      <Navbar />
+    <div className = "flex, min-h-screen bg-gray-50 items-center justify-center">
+      <div className = "text-center">
+        <div className = "animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto"></div>
 
-      {/* MAIN CONTENT AREA 
-          ml-0: Full width on mobile
-          lg:ml-64: Push content to the right only on large screens (desktop)
-      */}
-      <main className="flex-1 ml-0 lg:ml-64 p-6 md:p-10 lg:p-12 min-w-0 transition-all duration-300">
-        
-        <header className="mb-10 mt-12 lg:mt-0 flex justify-between items-center">
-          <h1 className="text-2xl md:text-3xl font-black uppercase tracking-tight text-gray-900">
-            Your Dashboard
-          </h1>
-        </header>
-
-        {/* --- TOP ROW --- */}
-        {/* grid-cols-1: Stacked on mobile | xl:grid-cols-2: Side-by-side on extra large */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 md:gap-8 mb-8">
-          
-          {/* Calorie Tracker */}
-          <section className="bg-gray-200 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 min-h-[200px]">
-            <h2 className="text-xl font-bold mb-6 text-gray-700">Calorie Tracker</h2>
-            {/* Component content goes here */}
-          </section>
-
-          {/* Memory Lane */}
-          <section className="bg-gray-500 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8 text-white min-h-[200px]">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-xl font-bold flex items-center gap-2">
-                <Camera size={20} /> Memory Lane
-              </h2>
-              <div className="w-14 h-4 bg-gray-400 rounded-full" />
-            </div>
-            {/* Component content goes here */}
-          </section>
-        </div>
-
-        {/* --- BOTTOM ROW --- */}
-        <section className="bg-gray-200 rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-8">
-          <h2 className="text-xl font-bold mb-6 text-gray-700">Budget Tracker</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
-            <div className="space-y-8">
-               {/* Stat bars or info would go here */}
-            </div>
-          </div>
-        </section>
-      </main>
+        <p className='mt-4 text-xl'> Loading Dashboard...</p>
+      </div>
     </div>
+  )
+}
+
+if (error) {
+  return(
+    <div className="flex min-h-screen bg-gray-50 items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-600 text-xl mb-4">Error: {error}</p>
+          <button 
+            onClick={() => window.location.reload()}
+            className="px-6 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
   );
 }
 
-function StatBar({ width }) {
-  return (
-    <div className="w-full h-4 bg-white rounded-full overflow-hidden shadow-inner border border-gray-100">
-      <div
-        className="h-full bg-gray-600 rounded-full transition-all duration-1000 ease-out"
-        style={{ width }}
+return (
+  <div className="flex min-h-screen bg-white">
+    <Navbar />
+
+    <main className="flex-1 ml-0 lg:ml-64 p-6 md:p-10 transition-all duration-300">
+      <h1 className="text-2xl font-bold mb-6">Your Dashboard</h1>
+
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6'>
+
+      <CalorieTrackerCard data={dashboard?.calorie_tracker} />
+
+      <MemoryLaneCard 
+        data = {dashboard?.memory_lane}
+        onViewAll = {() => navigate('/memory-lane')}
       />
-    </div>
-  );
+      </div>
+
+      {dashboard?.budget_tracker && (
+        <BudgetTrackerCard 
+          data={dashboard.budget_tracker}
+          onViewDetails={() => navigate('/budget-tracker')}
+        />
+      )}
+    </main>
+  </div>
+)
+
+
+
+
+
 }

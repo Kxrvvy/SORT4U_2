@@ -21,7 +21,7 @@ export default function CustomAreaChart({ data }) {
   return (
     <div style={{ width: '100%', height: 220 }}>
     <ResponsiveContainer width="100%" height="100%">
-      <AreaChart data={chartData} margin={{ top: 5, right: 0, left: 0, bottom: 5 }}>
+      <AreaChart data={chartData} margin={{ top: 20, right: 0, left: 0, bottom: 5 }}>
         <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#fff' }} />
         <YAxis
           tick={{ fontSize: 10, fill: '#fff' }}
