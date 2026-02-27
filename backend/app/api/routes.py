@@ -40,7 +40,7 @@ def signup(user_data: UserCreate, db: Session = Depends(get_db)):
     # Create access token
     access_token = create_access_token(
             data = {"sub": str(new_user.id)},
-            expires_delta= timedelta(minutes=30)
+            expires_delta=timedelta(minutes=60)
     )
     
     return {
@@ -65,7 +65,7 @@ def login(user_data: UserLogin, db: Session = Depends(get_db)):
     
     access_token = create_access_token(
         data = {"sub": str(user.id)},
-        expires_delta= timedelta(minutes=30)
+        expires_delta=timedelta(minutes=60)
     )
     
     return{

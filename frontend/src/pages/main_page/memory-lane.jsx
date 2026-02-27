@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import Navbar from '../../feature/navbar';
 import EditMemoryModal from '../../feature/EditMemoryModal';
 import axios from 'axios';
+import useInactivityTimeout from '@/hooks/useInactivityTimeout';
 
 export default function MemoryLane() {
   const API_BASE = '/memory/';
+   useInactivityTimeout();
   const navigate = useNavigate();
 
   const [memories, setMemories] = useState([]);

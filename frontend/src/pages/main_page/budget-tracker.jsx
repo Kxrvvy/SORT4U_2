@@ -5,8 +5,10 @@ import AddTransactionModal from "../../feature/bt-uploader/add-transaction";
 import ExpenseChart from "../../feature/graphs/expense-chart";
 import MonthlyReportModal from "../../feature/bt-uploader/monthly-report";
 import AreaChart from '../../feature/graphs/AreaChart';
+import useInactivityTimeout from '@/hooks/useInactivityTimeout';
 
 export default function BudgetTracker() {
+  useInactivityTimeout();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [isAddTransaction, setIsAddTransaction] = useState(false);
