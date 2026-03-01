@@ -70,7 +70,7 @@ export default function Navbar() {
 
       {/* Sidebar Container */}
       <div className={`
-        fixed left-0 top-0 h-screen w-64 bg-gray-900 text-white flex flex-col border-r border-gray-800 z-40
+        fixed left-0 top-0 h-screen w-48 bg-gray-900 text-white flex flex-col border-r border-gray-800 z-40
         transition-transform duration-300 ease-in-out
         overflow-y-auto  {/* <-- ADD THIS TO ENABLE SCROLLING */}
         ${isMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
@@ -80,16 +80,16 @@ export default function Navbar() {
           
           {/* Logo Section */}
           <div className="p-3 border-b border-gray-800">
-            <div className="flex items-center gap-3">
-              <div className="w-18 h-15 flex items-center justify-center overflow-hidden">
+            <div className="flex items-center gap-2">
+              <div className="w-12 h-10 flex items-center justify-center overflow-hidden">
                 <img src={LogoImg} alt="S4 Logo" className="w-full h-full object-cover" />
               </div>
-              <span className="font-bold text-2xl tracking-tight text-gray-100">SORT4U</span>
+              <span className="font-bold text-lg tracking-tight text-gray-100">SORT4U</span>
             </div>
           </div>
 
           {/* Navigation Items */}
-          <div className="flex-1 px-4 py-6 space-y-2">
+          <div className="flex-1 px-3 py-4 space-y-1">
             {NavItems.map((item) => {
               const Icon = item.icon;
               const active = isActive(item.path);
@@ -97,31 +97,31 @@ export default function Navbar() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all duration-200 ${
                     active
                       ? "bg-gray-700 text-white shadow-md border border-gray-600"
                       : "text-gray-400 hover:bg-gray-800 hover:text-white"
                   }`}
                 >
-                  <Icon className={`w-5 h-5 ${active ? "text-white" : "text-gray-500"}`} />
-                  <span className="font-medium">{item.label}</span>
+                  <Icon className={`w-4 h-4 ${active ? "text-white" : "text-gray-500"}`} />
+                  <span className="font-medium text-sm">{item.label}</span>
                 </Link>
               );
             })}
           </div>
 
           {/* Profile Section */}
-          <div className="p-6 border-t border-gray-800 bg-gray-900/50 mt-auto shrink-0">
-            <div className="flex items-center gap-3">
-              <button 
+          <div className="p-4 border-t border-gray-800 bg-gray-900/50 mt-auto shrink-0">
+            <div className="flex items-center gap-2">
+              <button
                 onClick={() => setIsProfileOpen(true)}
-                className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer transition-colors hover:bg-gray-700"
+                className="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center cursor-pointer transition-colors hover:bg-gray-700"
               >
-                <User className="w-6 h-6 text-gray-400" />
+                <User className="w-4 h-4 text-gray-400" />
               </button>
               <div className="flex-1">
-                <p className="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Hello!</p>
-                <p className="text-sm font-semibold text-gray-200 truncate">{userData.name}</p>
+                <p className="text-[9px] text-gray-500 font-bold uppercase tracking-widest">Hello!</p>
+                <p className="text-xs font-semibold text-gray-200 truncate">{userData.name}</p>
               </div>
             </div>
           </div>

@@ -7,9 +7,9 @@ export default function MemoryLaneCard({data, onViewAll}){
     if (!data) return null;
 
     return (
-        <div className="bg-gray-300 rounded-3xl shadow-md p-6 max-h-70">
+        <div className="bg-gray-300 rounded-3xl shadow-md p-6 min-h-80 max-h-96">
             <div className='flex items-center justify-between'>
-                <h2 className="text-xl font-bold"> Budget Tracker</h2>
+                <h2 className="text-xl font-bold"> Memory Lane</h2>
                 <button
                     onClick={onViewAll}
                     className='flex text-sm text-gray-500 font-medium cursor-pointer group'
@@ -25,7 +25,7 @@ export default function MemoryLaneCard({data, onViewAll}){
                 {data.total_memories} memories captured
             </p>
 
-            <div className="space-y-2 max-h-44 overflow-y-auto pr-2 custom-scrollbar">
+            <div className="space-y-2 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
                 {data.memories.length > 0? (
                     data.memories.map(memory => (
                         <div

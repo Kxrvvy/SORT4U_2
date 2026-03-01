@@ -94,7 +94,7 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
                                     name: new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                                     value: t.amount,
                                 }))}
-                                margin={{ top: 20, right: 0, left: 0, bottom: 5 }}
+                                margin={{ top: 35, right: 0, left: 0, bottom: 5 }}
                             >
                                 <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#6b7280' }} />
                                 <YAxis
