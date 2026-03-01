@@ -4,7 +4,7 @@ from sqlalchemy import func
 from datetime import date, timedelta
 
 from app.database import get_db
-from app.models import User, Budget, Transaction, Category, Memory
+from app.models import User, Budget, Transaction, Category, Memory, CalorieTracker
 from app.schemas import DashboardOverview
 from app.utils import get_current_active_user
 
@@ -18,9 +18,20 @@ async def get_dashboard_overview(
     current_user: User = Depends(get_current_active_user)
 ):
     # CALORIE TRACKER PREVIEW
+    today = date.today()
+    calorie_entries = db.query(CalorieTracker).filter(
+        CalorieTracker.user_id == current_user.id,
+        CalorieTracker.entry_date == today
+    ).all()
+
     calorie_tracker = {
-        "status": "Coming Soon",
-        "message": "Feature coming soon"
+        "total_calories": sum(e.calories for e in calorie_entries),
+        "calorie_goal": current_user.calorie_goal,
+        "food_count": len(calorie_entries),
+        "total_protein": sum(e.protein for e in calorie_entries),
+        "total_carbs": sum(e.carbs for e in calorie_entries),
+        "total_fat": sum(e.fat for e in calorie_entries),
+        "total_fiber": sum(e.fiber for e in calorie_entries),
     }
 
     # MEMORY LANE PREVIEW

@@ -86,7 +86,7 @@ export default function MemoryLane() {
     <div className="flex min-h-screen bg-white font-sans text-gray-800">
       <Navbar />
 
-      <main className="flex-1 ml-0 lg:ml-64 p-6 md:p-10 transition-all duration-300">
+      <main className="flex-1 ml-0 lg:ml-48 p-5 md:p-8 transition-all duration-300 max-w-auto">
 
         <header className="text-center mb-10 mt-12 lg:mt-0">
           <h1 className="text-2xl md:text-3xl font-bold mb-2 uppercase tracking-tight text-gray-900">Memory Lane</h1>
@@ -132,10 +132,10 @@ export default function MemoryLane() {
               <p className="text-gray-400 font-medium">Walking down memory lane...</p>
             </div>
           ) : filteredMemories.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredMemories.map((memory) => (
-                <div key={memory.id} className="group relative border rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white flex flex-col border-gray-100">
-                  <div className="aspect-video bg-gray-50 flex items-center justify-center border-b border-gray-100 overflow-hidden">
+                <div key={memory.id} className="group relative border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white flex flex-col border-gray-100">
+                  <div className="aspect-video bg-gray-50 flex items-center justify-center border-b border-gray-100 overflow-hidden" style={{ maxHeight: '140px' }}>
                     {memory.image_url ? (
                       <img
                         src={memory.image_url}
@@ -143,38 +143,38 @@ export default function MemoryLane() {
                         className={`w-full h-full object-cover transition-opacity duration-300 ${memory.is_completed ? 'opacity-50 grayscale' : 'opacity-100'}`}
                       />
                     ) : (
-                      <ImageIcon className="text-gray-300" size={40} />
+                      <ImageIcon className="text-gray-300" size={32} />
                     )}
                   </div>
 
-                  <div className="p-6 flex-1 flex flex-col justify-between">
+                  <div className="p-3 flex-1 flex flex-col justify-between">
                     <div>
                       {memory.is_completed && (
                         <span className="inline-block mb-2 bg-gray-100 px-3 py-0.5 rounded-full text-[10px] font-black uppercase tracking-widest text-gray-500 border border-gray-200">
                           Completed
                         </span>
                       )}
-                      <h3 className={`font-bold text-lg leading-tight break-words mb-2 ${
+                      <h3 className={`font-bold text-sm leading-tight break-words mb-1.5 ${
                         memory.is_completed ? 'text-gray-400 line-through' : 'text-gray-800'
                       }`}>
                         {memory.description || "Untitled Memory"}
                       </h3>
 
-                      <div className="space-y-1">
+                      <div className="space-y-0.5">
                         {memory.location && (
-                          <p className="text-xs text-gray-500 flex items-center gap-1">
-                            <span className="font-bold uppercase text-[11px] text-gray-400">Where: </span> {memory.location}
+                          <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                            <span className="font-bold uppercase text-[9px] text-gray-400">Where: </span> {memory.location}
                           </p>
                         )}
                         {memory.person && (
-                          <p className="text-xs text-gray-500 flex items-center gap-1">
-                            <span className="font-bold uppercase text-[11px] text-gray-400">Who: </span> {memory.person}
+                          <p className="text-[10px] text-gray-500 flex items-center gap-1">
+                            <span className="font-bold uppercase text-[9px] text-gray-400">Who: </span> {memory.person}
                           </p>
                         )}
                       </div>
 
                       {memory.tags && (
-                        <div className="flex flex-wrap gap-1.5 mt-3">
+                        <div className="flex flex-wrap gap-1 mt-2">
                           {memory.tags.split(',').map((tag, i) => {
                             const colors = [
                               'bg-blue-100 text-blue-700 border-blue-200',

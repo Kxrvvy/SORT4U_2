@@ -23,6 +23,7 @@ export default defineConfig({
       '/categories': 'http://localhost:8000',
       '/budget/': 'http://localhost:8000',
       '/dashboard/overview': 'http://localhost:8000',
+      '/calorie-tracker/': 'http://localhost:8000',
     },
   },
 })

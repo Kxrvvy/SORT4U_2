@@ -5,6 +5,7 @@ from app.api import routes, memory_route, budget_routes, category_routes, transa
 from app.database import engine, Base
 from app.api import profile_route
 from app.api import dashboard_route
+from app.api import calorie_routes
 import os
 
 # Create Database tables
@@ -29,6 +30,7 @@ app.include_router(category_routes.router)
 app.include_router(transaction_route.router)
 app.include_router(analytics_routes.router)
 app.include_router(dashboard_route.router)
+app.include_router(calorie_routes.router)
 
 # Serve uploaded files
 os.makedirs("app/uploads", exist_ok=True)

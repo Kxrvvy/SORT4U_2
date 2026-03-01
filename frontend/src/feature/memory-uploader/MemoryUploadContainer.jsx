@@ -92,7 +92,7 @@ const MemoryUploadContainer = ({ onSave }) => {
   return (
       <div className="bg-gray-300 rounded-3xl p-9 font-sans">
       <h2 className="text-2xl font-semibold mb-9">Create Memory Reminder</h2>
-      
+
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* File Upload Component */}
         <PictureUpload 

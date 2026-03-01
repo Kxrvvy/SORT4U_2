@@ -187,7 +187,7 @@ export default function BudgetTracker() {
     return (
       <div className="flex min-h-screen bg-[#f5f5f5] font-sans text-gray-800">
         <Navbar />
-        <main className="flex-1 lg:ml-64 p-4 md:p-8 w-full">
+        <main className="flex-1 lg:ml-48 p-4 md:p-8 w-full">
           <div className="flex flex-col items-center justify-center min-h-[70vh]">
             <div className="bg-white p-8 rounded-3xl shadow-lg max-w-md text-center">
               <h2 className="text-2xl font-bold mb-4">Welcome to Budget Tracker!</h2>
@@ -219,7 +219,7 @@ export default function BudgetTracker() {
     <div className="flex min-h-screen bg-[#f5f5f5] font-sans text-gray-800">
       <Navbar />
 
-      <main className="flex-1 lg:ml-64 p-4 md:p-8 w-full">
+      <main className="flex-1 lg:ml-48 p-4 md:p-8 w-full">
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-black">Budget Tracker</h1>
         </header>

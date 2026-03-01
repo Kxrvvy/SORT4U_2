@@ -7,3 +7,5 @@ python-multipart
 pydantic
 pydantic-settings
 email-validator
+google-genai
+python-dotenv

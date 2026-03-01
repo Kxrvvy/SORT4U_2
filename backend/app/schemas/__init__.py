@@ -5,3 +5,12 @@ from .category import CategoryCreate, CategoryResponse
 from .transaction import TransactionCreate, TransactionResponse, TransactionUpdate
 from .budget import BudgetInitialize, BudgetResponse, BudgetUpdate, BudgetHistoryResponse, BudgetNewCycle
 from .dashboard import DashboardOverview, CalorieTrackerPreview, MemoryLanePreview, BudgetTrackerPreview, BudgetSummary, SpendingTrends, RecentTransactions
+from .calorie import (
+    FoodLookupRequest,
+    GoalUpdate,
+    NutritionData,
+    CalorieTrackerResponse,
+    DailySummary,
+    GoalResponse,
+    RateLimitResponse
+)
