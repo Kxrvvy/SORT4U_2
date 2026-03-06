@@ -11,7 +11,7 @@ class Memory(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable = False)
     
     image_url  = Column(String(500), nullable=True)
-    description = Column(Text, nullable = False)
+    description = Column(String(255), nullable = False)
     location = Column(String(255), nullable = True)
     person = Column(String(255), nullable = True)
     tags = Column(Text, nullable = True)

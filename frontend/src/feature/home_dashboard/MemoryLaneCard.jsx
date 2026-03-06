@@ -44,7 +44,7 @@ export default function MemoryLaneCard({data, onViewAll}){
                                     alt= {memory.description}
                                     className='w-50 h-10 rounded-r-lg object-cover  bg-gray-200 ' />
                             ) : (
-                                <div className="w-16 h-16 rounded-lg bg-gray-200 flex items-center justify-center shrink-0">
+                                <div className="w-50 h-10 rounded-r-lg bg-gray-200 flex items-center justify-center shrink-0">
                                     <span className="text-gray-400 text-2xl">📷</span>
                                 </div>
                             )}

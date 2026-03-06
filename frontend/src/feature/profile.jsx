@@ -90,17 +90,17 @@ export default function Profile({ onClose, onLogoutTrigger }) {
   };
 
   if (loading) return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm">
       <div className="text-white font-bold animate-pulse tracking-widest uppercase">Loading Profile...</div>
     </div>
   );
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4" onClick={onClose}>
       
       {/* SIGN OUT BUTTON: Restored to Floating Upper Right */}
       <button 
-        className="fixed top-6 right-6 lg:top-10 lg:right-10 w-14 h-14 lg:w-16 lg:h-16 bg-[#F87171] rounded-full flex items-center justify-center hover:bg-red-500 transition-all shadow-2xl hover:scale-110 z-[110]"
+        className="fixed top-6 right-6 lg:top-10 lg:right-10 w-14 h-14 lg:w-16 lg:h-16 bg-[#F87171] rounded-full flex items-center justify-center hover:bg-red-500 transition-all shadow-2xl hover:scale-110 z-110"
         onClick={(e) => { e.stopPropagation(); onLogoutTrigger(); }}
       >
         <LogOut className="text-white w-7 h-7 lg:w-8 lg:h-8 ml-1" />
@@ -108,7 +108,7 @@ export default function Profile({ onClose, onLogoutTrigger }) {
 
       {/* ID CARD CONTAINER */}
       <div 
-        className="bg-[#D1D5DB] w-full max-w-[550px] h-[400px] rounded-[2.5rem] overflow-hidden shadow-2xl relative border-[6px] border-[#4B5563] animate-in fade-in zoom-in duration-200 flex flex-col cursor-default" 
+        className="bg-[#D1D5DB] w-full max-w-137.5 h-100 rounded-[2.5rem] overflow-hidden shadow-2xl relative border-[6px] border-[#4B5563] animate-in fade-in zoom-in duration-200 flex flex-col cursor-default" 
         onClick={(e) => e.stopPropagation()}
       >
         
@@ -196,7 +196,7 @@ export default function Profile({ onClose, onLogoutTrigger }) {
           <button 
             onClick={handleManualSave} 
             disabled={saving} 
-            className="bg-[#4B5563] text-white text-xs font-black px-10 py-2.5 rounded-full hover:bg-[#374151] active:scale-95 transition-all shadow-lg flex items-center gap-3 tracking-[0.1em]"
+            className="bg-[#4B5563] text-white text-xs font-black px-10 py-2.5 rounded-full hover:bg-[#374151] active:scale-95 transition-all shadow-lg flex items-center gap-3 tracking-widest"
           >
             {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
             {saving ? "SAVING..." : "UPDATE PROFILE"}

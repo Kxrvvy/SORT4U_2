@@ -28,6 +28,7 @@ const MemoryUploadContainer = ({ onSave }) => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'whatToRemember' && value.length > 255) return;
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -40,12 +41,10 @@ const MemoryUploadContainer = ({ onSave }) => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.image) {
-      newErrors.image = 'Please upload a photo';
-    }
-
     if (!formData.whatToRemember.trim()) {
       newErrors.whatToRemember = 'This field is required';
+    } else if (formData.whatToRemember.length > 255) {
+      newErrors.whatToRemember = 'Description must be 255 characters or less';
     }
 
     return newErrors;
@@ -119,9 +118,7 @@ const MemoryUploadContainer = ({ onSave }) => {
               errors.whatToRemember ? 'border-2 border-red-500' : ''
             }`}
           />
-          {errors.whatToRemember && (
-            <p className="mt-1 text-sm text-red-600">{errors.whatToRemember}</p>
-          )}
+          
         </div>
 
         {/* Where is this? (Optional) */}

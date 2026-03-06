@@ -71,7 +71,7 @@ const [apiError, setApiError] = useState('');
 	};
 
   return (
-    <div className="h-[100dvh] w-full bg-white flex items-center justify-center p-4 sm:p-8 overflow-hidden">
+    <div className="h-dvh w-full bg-white flex items-center justify-center p-4 sm:p-8 overflow-hidden">
       <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-8 items-center justify-center h-full">
         
         {/* Back Button */}
@@ -82,7 +82,7 @@ const [apiError, setApiError] = useState('');
         </Link>
 
         {/* Form Container: Now a contained box on both mobile and desktop */}
-        <div className="w-full max-w-[450px] lg:max-w-none lg:flex-1 bg-gray-200 rounded-[2rem] p-6 sm:p-12 relative order-1 shadow-xl lg:shadow-none">
+        <div className="w-full max-w-112.5 lg:max-w-none lg:flex-1 bg-gray-200 rounded-4xl p-6 sm:p-12 relative order-1 shadow-xl lg:shadow-none">
           
           <div className="max-w-md mx-auto w-full">
             <header className="text-center mb-6 sm:mb-8">

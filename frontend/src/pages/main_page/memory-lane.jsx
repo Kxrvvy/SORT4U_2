@@ -77,6 +77,8 @@ export default function MemoryLane() {
     setMemories(prev => prev.map(m => (m.id === updatedMemory.id ? updatedMemory : m)));
   };
 
+  const [activeCard, setActiveCard] = useState(null);
+
   const filteredMemories = memories.filter(m => {
     if (filter === 'pending') return !m.is_completed;
     if (filter === 'done') return m.is_completed;
@@ -135,7 +137,11 @@ export default function MemoryLane() {
           ) : filteredMemories.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               {filteredMemories.map((memory) => (
-                <div key={memory.id} className="group relative border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white flex flex-col border-gray-100">
+                <div
+                  key={memory.id}
+                  className="group relative border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white flex flex-col border-gray-100"
+                  onClick={() => setActiveCard(activeCard === memory.id ? null : memory.id)}
+                >
                   <div className="aspect-video bg-gray-50 flex items-center justify-center border-b border-gray-100 overflow-hidden" style={{ maxHeight: '140px' }}>
                     {memory.image_url ? (
                       <img
@@ -198,27 +204,73 @@ export default function MemoryLane() {
                     </div>
                   </div>
 
-                  {/* Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 px-6">
+                  {/* Click Overlay — tablet only (sm to lg) */}
+                  <div className={`hidden sm:flex lg:hidden absolute inset-0 bg-black/60 flex-col items-center justify-center gap-3 px-6 transition-opacity ${activeCard === memory.id ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <div className="flex gap-3 w-full">
                       <button
-                        onClick={() => deleteMemory(memory.id)}
+                        onClick={(e) => { e.stopPropagation(); deleteMemory(memory.id); }}
                         className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 hover:text-red-600 transition-colors"
                       >
                         <Trash2 size={16} /> Delete
                       </button>
                       <button
-                        onClick={() => toggleComplete(memory.id, memory.is_completed)}
+                        onClick={(e) => { e.stopPropagation(); toggleComplete(memory.id, memory.is_completed); }}
                         className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-50 hover:text-green-600 transition-colors"
                       >
                         <CheckCircle2 size={16} /> {memory.is_completed ? 'Mark Pending' : 'Complete'}
                       </button>
                     </div>
                     <button
-                      onClick={() => openEditModal(memory)}
+                      onClick={(e) => { e.stopPropagation(); openEditModal(memory); }}
                       className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:text-blue-600 transition-colors"
                     >
                       <SquarePen size={16} /> Edit Memory
+                    </button>
+                  </div>
+
+                  {/* Hover Overlay — desktop only (lg+) */}
+                  <div className="hidden lg:flex absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex-col items-center justify-center gap-3 px-6">
+                    <div className="flex gap-3 w-full">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); deleteMemory(memory.id); }}
+                        className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-red-50 hover:text-red-600 transition-colors"
+                      >
+                        <Trash2 size={16} /> Delete
+                      </button>
+                      <button
+                        onClick={(e) => { e.stopPropagation(); toggleComplete(memory.id, memory.is_completed); }}
+                        className="flex-1 flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-50 hover:text-green-600 transition-colors"
+                      >
+                        <CheckCircle2 size={16} /> {memory.is_completed ? 'Mark Pending' : 'Complete'}
+                      </button>
+                    </div>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); openEditModal(memory); }}
+                      className="w-full flex items-center justify-center gap-2 bg-white text-gray-800 px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    >
+                      <SquarePen size={16} /> Edit Memory
+                    </button>
+                  </div>
+
+                  {/* Action buttons — mobile only (always visible) */}
+                  <div className="sm:hidden flex gap-2 px-3 pb-3">
+                    <button
+                      onClick={() => deleteMemory(memory.id)}
+                      className="flex-1 flex items-center justify-center gap-1 bg-gray-100 text-gray-700 py-1.5 rounded-lg text-xs font-semibold active:bg-red-50 active:text-red-600"
+                    >
+                      <Trash2 size={13} /> Delete
+                    </button>
+                    <button
+                      onClick={() => toggleComplete(memory.id, memory.is_completed)}
+                      className="flex-1 flex items-center justify-center gap-1 bg-gray-100 text-gray-700 py-1.5 rounded-lg text-xs font-semibold active:bg-green-50 active:text-green-600"
+                    >
+                      <CheckCircle2 size={13} /> {memory.is_completed ? 'Pending' : 'Done'}
+                    </button>
+                    <button
+                      onClick={() => openEditModal(memory)}
+                      className="flex-1 flex items-center justify-center gap-1 bg-gray-100 text-gray-700 py-1.5 rounded-lg text-xs font-semibold active:bg-blue-50 active:text-blue-600"
+                    >
+                      <SquarePen size={13} /> Edit
                     </button>
                   </div>
                 </div>

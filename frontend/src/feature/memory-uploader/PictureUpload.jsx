@@ -45,7 +45,7 @@ const PictureUpload = ({ onFileSelect, uploadedImage }) => {
   };
 
   return (
-    <div className="mb-18" >
+    <div className="mb-8" >
       <label className="block text-sm font-medium text-gray-700 mb-1">
         Take or Upload Photo
       </label>
