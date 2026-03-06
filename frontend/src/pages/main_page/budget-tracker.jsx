@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../../feature/navbar';
 import EditBudgetModal from "../../feature/bt-uploader/edit-budget";
 import AddTransactionModal from "../../feature/bt-uploader/add-transaction";
+import EditTransactionModal from "../../feature/bt-uploader/EditTransactionModal";
 import ExpenseChart from "../../feature/graphs/expense-chart";
 import MonthlyReportModal from "../../feature/bt-uploader/monthly-report";
 import AreaChart from '../../feature/graphs/AreaChart';
@@ -15,6 +16,8 @@ export default function BudgetTracker() {
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [isAddTransaction, setIsAddTransaction] = useState(false);
   const [hasNoBudget, setHasNoBudget] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [isEditTransactionOpen, setIsEditTransactionOpen] = useState(false);
 
   const [summary, setSummary] = useState({
     budget_amount: 0,
@@ -167,6 +170,49 @@ export default function BudgetTracker() {
     } catch (error) {
       console.error('Error with budget:', error);
       alert('Failed to process budget');
+    }
+  };
+
+  const handleEditTransaction = async (id, transactionData) => {
+    try {
+      const response = await fetch(`${API_URL}/transactions/${id}`, {
+        method: 'PUT',
+        headers: authHeader(),
+        body: JSON.stringify(transactionData),
+      });
+      if (response.ok) {
+        await fetchTransactions();
+        await fetchSummary();
+        setIsEditTransactionOpen(false);
+        setSelectedTransaction(null);
+      } else {
+        const error = await response.json();
+        alert(`Failed to update transaction: ${error.detail || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error updating transaction:', error);
+      alert('Failed to update transaction');
+    }
+  };
+
+  const handleDeleteTransaction = async (id) => {
+    try {
+      const response = await fetch(`${API_URL}/transactions/${id}`, {
+        method: 'DELETE',
+        headers: authHeader(),
+      });
+      if (response.ok) {
+        await fetchTransactions();
+        await fetchSummary();
+        setIsEditTransactionOpen(false);
+        setSelectedTransaction(null);
+      } else {
+        const error = await response.json();
+        alert(`Failed to delete transaction: ${error.detail || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error deleting transaction:', error);
+      alert('Failed to delete transaction');
     }
   };
 
@@ -326,7 +372,7 @@ export default function BudgetTracker() {
 
               <div className="space-y-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar">
                 {transactions.length > 0 ? transactions.map((t) => (
-                  <div key={t.id} className="flex justify-between text-white border-b border-white/10 pb-2">
+                  <div key={t.id} className="flex justify-between items-center text-white border-b border-white/10 pb-2">
                     <div className="flex-1">
                       <p className="text-sm font-bold">{t.description}</p>
                       <div className="flex gap-3 text-[10px] opacity-60 mt-1">
@@ -335,9 +381,17 @@ export default function BudgetTracker() {
                         <span>{new Date(t.transaction_date).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <span className={`font-bold text-sm ${t.type === 'income' ? 'text-green-300' : 'text-red-600'}`}>
-                      {t.type === 'income' ? '+' : '-'}₱{Number(t.amount).toLocaleString()}
-                    </span>
+                    <div className="flex items-center gap-3">
+                      <span className={`font-bold text-sm ${t.type === 'income' ? 'text-green-300' : 'text-red-600'}`}>
+                        {t.type === 'income' ? '+' : '-'}₱{Number(t.amount).toLocaleString()}
+                      </span>
+                      <button
+                        onClick={() => { setSelectedTransaction(t); setIsEditTransactionOpen(true); }}
+                        className="text-white/50 hover:text-white transition-colors text-xs font-semibold px-2 py-1 rounded-lg hover:bg-white/10"
+                      >
+                        Edit
+                      </button>
+                    </div>
                   </div>
                 )) : (
                   <p className="text-center text-white/20 italic py-10">No transactions yet</p>
@@ -386,7 +440,16 @@ export default function BudgetTracker() {
           isOpen={isAddTransaction}
           onClose={() => setIsAddTransaction(false)}
           onConfirm={handleAddTransaction}
-          categories={categories}  
+          categories={categories}
+        />
+
+        <EditTransactionModal
+          isOpen={isEditTransactionOpen}
+          transaction={selectedTransaction}
+          categories={categories}
+          onClose={() => { setIsEditTransactionOpen(false); setSelectedTransaction(null); }}
+          onEdit={handleEditTransaction}
+          onDelete={handleDeleteTransaction}
         />
       </main>
     </div>
