@@ -3,7 +3,7 @@ import { ArrowLeft, Image } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginHello from "@/assets/LoginHello.png";
-import { API_URL } from '../../config.js';
+import { API_URL } from '../config.js';
 
 
 export default function LoginPage() {
