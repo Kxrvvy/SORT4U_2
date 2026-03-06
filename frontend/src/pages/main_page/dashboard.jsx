@@ -7,7 +7,7 @@ import useInactivityTimeout from '@/hooks/useInactivityTimeout';
 import CalorieTrackerCard from '@/feature/home_dashboard/CalorieTrackerCard';
 import BudgetTrackerCard from '@/feature/home_dashboard/BudgetTrackerCard';
 import MemoryLaneCard from '@/feature/home_dashboard/MemoryLaneCard';
-import { API_URL } from '@/config.js';
+import { API_URL } from '../../config.js';
 
 
 export default function HomeDashboard() {

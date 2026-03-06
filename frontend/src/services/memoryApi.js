@@ -1,4 +1,4 @@
-import { API_URL } from "@/config.js";
+import { API_URL } from '../config.js';
 
 const API_BASE_URL = API_URL; // Change this to your backend URL
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Flame, Loader2 } from 'lucide-react';
-import { API_URL } from '@/config.js';
+import { API_URL } from '../../config.js';
 
 export default function AddFoodContainer({ onAddFood }) {
   const [foodInput, setFoodInput] = useState('');

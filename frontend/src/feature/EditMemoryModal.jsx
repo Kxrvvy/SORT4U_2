@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'lucide-react';
 import axios from 'axios';
-import { API_URL } from '@/config.js';
+import { API_URL } from '../config.js';
 
 export default function EditMemoryModal({ isOpen, memory, onClose, onUpdate }) {
   const [editForm, setEditForm] = useState({

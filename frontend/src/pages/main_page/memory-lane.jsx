@@ -5,7 +5,7 @@ import Navbar from '../../feature/navbar';
 import EditMemoryModal from '../../feature/EditMemoryModal';
 import axios from 'axios';
 import useInactivityTimeout from '@/hooks/useInactivityTimeout';
-import { API_URL } from '@/config.js';
+import { API_URL } from '../../config.js';
 
 export default function MemoryLane() {
   const API_BASE = `${API_URL}/memory/`;

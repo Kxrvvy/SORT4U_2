@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Flame, ChevronDown, ChevronUp } from 'lucide-react';
-import { API_URL } from '@/config.js';
+import { API_URL } from '../../config.js';
 
 const authHeader = () => ({
   'Content-Type': 'application/json',

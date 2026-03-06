@@ -6,7 +6,7 @@ import ExpenseChart from "../../feature/graphs/expense-chart";
 import MonthlyReportModal from "../../feature/bt-uploader/monthly-report";
 import AreaChart from '../../feature/graphs/AreaChart';
 import useInactivityTimeout from '@/hooks/useInactivityTimeout';
-import { API_URL } from '@/config.js';
+import { API_URL } from '../../config.js';
 
 export default function BudgetTracker() {
   useInactivityTimeout();
