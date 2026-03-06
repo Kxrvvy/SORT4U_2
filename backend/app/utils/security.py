@@ -9,7 +9,7 @@ from app.database import get_db
 from app.models import User
 
 
-pwd_context = CryptContext(schemes=["bcrypt"])
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 SECRET_KEY = "e8eb6ce11e2fa374beeeb744f31035e641bf295177e3d7220ae922e6e3a0d0ae"
 ALGORITHM = "HS256"
@@ -17,11 +17,15 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 60 * 24 * 7  # 7 days
 
 
 def verify_password(plain_password: str, hash_password: str) -> bool:
-    return pwd_context.verify(plain_password, hash_password)
+    plain_bytes = plain_password.encode('utf-8')[:72]
+    plain_truncated = plain_bytes.decode('utf-8', errors='ignore')
+    return pwd_context.verify(plain_truncated, hash_password)
 
 
 def get_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
+    password_bytes = password.encode('utf-8')[:72]
+    password_truncated = password_bytes.decode('utf-8', errors='ignore')
+    return pwd_context.hash(password_truncated)
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
