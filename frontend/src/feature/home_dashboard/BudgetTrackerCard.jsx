@@ -1,6 +1,6 @@
-import { ArrowRight, Wallet } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import SummaryCard from "./SummaryCard";
-import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import CustomAreaChart from '../graphs/AreaChart';
 
 
 
@@ -8,7 +8,6 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
     const budget_summary = data?.budget_summary;
     const cycleInfo = budget_summary?.cycle_info;
     const transactions = data?.recent_transactions?.transactions ?? [];
-    const trends = data?.spending_trends?.trends ?? [];
 
     const budgetAmount = budget_summary?.budget_amount ?? 0;
     const totalIncome = budget_summary?.total_income ?? 0;
@@ -97,30 +96,8 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
 
                 {/* Line Graph */}
                 <div>
-                    <p className='font-bold text-2xl mb-10'>Spending Over Time</p>
-                    <div style={{ width: '100%', height: 320 }}>
-                        <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart
-                                data={trends.map(t => ({
-                                    name: new Date(t.date).toLocaleDateString('en-PH', { month: 'short', day: 'numeric' }),
-                                    value: t.amount,
-                                }))}
-                                margin={{ top: 35, right: 20, left: 0, bottom: 5 }}
-                            >
-                                <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#6b7280' }} />
-                                <YAxis
-                                    tick={{ fontSize: 10, fill: '#6b7280' }}
-                                    tickFormatter={(v) => `₱${v.toLocaleString()}`}
-                                    width={60}
-                                />
-                                <Tooltip
-                                    contentStyle={{ backgroundColor: '#1f2937', border: 'none', borderRadius: '8px', color: '#fff', fontSize: '12px' }}
-                                    formatter={(value) => [`₱${value.toLocaleString()}`, 'Spent']}
-                                />
-                                <Area type="natural" dataKey="value" stroke="#c4b5fd" fill="#8b5cf6" fillOpacity={0.5} strokeWidth={2} />
-                            </AreaChart>
-                        </ResponsiveContainer>
-                    </div>
+                    <p className='font-bold text-2xl mb-4'>Spending Over Time</p>
+                    <CustomAreaChart data={transactions} height={320} />
                 </div>
 
             </div>
