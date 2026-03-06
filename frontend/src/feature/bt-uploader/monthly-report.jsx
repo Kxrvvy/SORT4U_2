@@ -24,7 +24,7 @@ export default function MonthlyReportModal({ isOpen, onClose, summary }) {
 
   if (!isOpen) return null;
 
-  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+  const formatDate = (d) => d ? new Date(d).toLocaleDateString('en-PH', { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
   const formatPeso = (v) => `₱${Number(v || 0).toLocaleString()}`;
 
   return (

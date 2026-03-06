@@ -102,7 +102,7 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart
                                 data={trends.map(t => ({
-                                    name: new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                                    name: new Date(t.date).toLocaleDateString('en-PH', { month: 'short', day: 'numeric' }),
                                     value: t.amount,
                                 }))}
                                 margin={{ top: 35, right: 20, left: 0, bottom: 5 }}
