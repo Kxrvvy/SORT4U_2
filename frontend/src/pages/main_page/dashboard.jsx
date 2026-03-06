@@ -99,12 +99,10 @@ return (
       />
       </div>
 
-      {dashboard?.budget_tracker && (
-        <BudgetTrackerCard 
-          data={dashboard.budget_tracker}
-          onViewDetails={() => navigate('/budget-tracker')}
-        />
-      )}
+      <BudgetTrackerCard
+        data={dashboard?.budget_tracker}
+        onViewDetails={() => navigate('/budget-tracker')}
+      />
     </main>
   </div>
 )

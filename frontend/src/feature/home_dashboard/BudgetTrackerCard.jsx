@@ -5,29 +5,15 @@ import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'rec
 
 
 export default function BudgetTrackerCard({ data, onViewDetails }){
-    if (!data) return (
-        <div className="bg-gray-300 rounded-3xl shadow-md p-6 min-h-80 flex flex-col">
-            <div className="flex justify-between items-start mb-4">
-                <h2 className="text-xl font-bold">Budget Tracker</h2>
-                <button
-                    onClick={onViewDetails}
-                    className="flex text-sm text-gray-500 font-medium cursor-pointer group"
-                >
-                    <span className="flex items-center gap-0.5 group-hover:border-b group-hover:border-gray-500 pb-px leading-none">
-                        <span>Set Up</span>
-                        <ArrowRight className="w-4 h-4" />
-                    </span>
-                </button>
-            </div>
-            <div className="flex-1 flex flex-col items-center justify-center text-center gap-3">
-                <Wallet className="w-10 h-10 text-gray-400" />
-                <p className="font-semibold text-gray-600">No budget set up yet</p>
-                <p className="text-sm text-gray-400">Go to Budget Tracker to create your first budget cycle.</p>
-            </div>
-        </div>
-    );
+    const budget_summary = data?.budget_summary;
+    const cycleInfo = budget_summary?.cycle_info;
+    const transactions = data?.recent_transactions?.transactions ?? [];
+    const trends = data?.spending_trends?.trends ?? [];
 
-    const { budget_summary, spending_trends, recent_transactions } = data
+    const budgetAmount = budget_summary?.budget_amount ?? 0;
+    const totalIncome = budget_summary?.total_income ?? 0;
+    const totalExpense = budget_summary?.total_expense ?? 0;
+    const totalSavings = budget_summary?.total_savings ?? 0;
 
     return (
         <div className="bg-gray-300 rounded-3xl shad-md p-6">
@@ -48,36 +34,40 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
                 <div className="space-y-2 ">
                     {/*Budget Summary */}
                     <div className='grid grid-cols-4 gap-1'>
-                        <SummaryCard 
+                        <SummaryCard
                             label = "Budget"
-                            value = {`₱${budget_summary.budget_amount.toLocaleString()}`}
+                            value = {`₱${budgetAmount.toLocaleString()}`}
                         />
-                        <SummaryCard 
+                        <SummaryCard
                             label = "Income"
-                            value = {`₱${budget_summary.total_income.toLocaleString()}`}
+                            value = {`₱${totalIncome.toLocaleString()}`}
                         />
-                        <SummaryCard 
+                        <SummaryCard
                             label = "Expense"
-                            value = {`₱${budget_summary.total_expense.toLocaleString()}`}
+                            value = {`₱${totalExpense.toLocaleString()}`}
                         />
-                        <SummaryCard 
+                        <SummaryCard
                             label = "Savings"
-                            value = {`₱${budget_summary.total_savings.toLocaleString()}`}
+                            value = {`₱${totalSavings.toLocaleString()}`}
                         />
                     </div>
-                    
+
                     {/*Cycle Info */}
                     <div className=''>
-                        <p className='font-bold text-sm'>
-                            Current Cycle # {budget_summary.cycle_info.cycle_number}: {' '}
-                        </p>
-
-                        <div className='flex gap-3 text-[12px] '>
-                            {new Date(budget_summary.cycle_info.start_date).toLocaleDateString()} - {' '}
-                            {new Date(budget_summary.cycle_info.end_date).toLocaleDateString()}
-                            <p className='font-bold text-amber-400'>{budget_summary.cycle_info.days_remaining}D left</p>
-                        </div>
-                        
+                        {cycleInfo ? (
+                            <>
+                                <p className='font-bold text-sm'>
+                                    Current Cycle # {cycleInfo.cycle_number}:{' '}
+                                </p>
+                                <div className='flex gap-3 text-[12px] '>
+                                    {new Date(cycleInfo.start_date).toLocaleDateString()} -{' '}
+                                    {new Date(cycleInfo.end_date).toLocaleDateString()}
+                                    <p className='font-bold text-amber-400'>{cycleInfo.days_remaining}D left</p>
+                                </div>
+                            </>
+                        ) : (
+                            <p className='text-sm text-gray-500'>No active budget cycle — go to Budget Tracker to set one.</p>
+                        )}
                     </div>
 
                     {/*Recent Transactions */}
@@ -85,7 +75,7 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
                     <div className='text-gray-700  rounded-2xl p-2 space-y-3 max-h-68 overflow-y-auto pr-2 custom-scrollbar'>
                         <h3 className='font-bold'>Recent Transactions</h3>
                         <div className=''>
-                            {recent_transactions.transactions.map(transac => (
+                            {transactions.length > 0 ? transactions.map(transac => (
                                 <div
                                     key={transac.id}
                                     className="flex justify-between items-center text-sm font-semibold mb-2 border-b border-gray-400/50 pb-2"
@@ -98,7 +88,9 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
                                         {transac.type === "income" ? '+' : '-'}₱{transac.amount.toLocaleString()}
                                     </span>
                                 </div>
-                            ))}
+                            )) : (
+                                <p className='text-sm text-gray-500 italic'>No transactions yet</p>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -109,7 +101,7 @@ export default function BudgetTrackerCard({ data, onViewDetails }){
                     <div style={{ width: '100%', height: 320 }}>
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart
-                                data={spending_trends.trends.map(t => ({
+                                data={trends.map(t => ({
                                     name: new Date(t.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
                                     value: t.amount,
                                 }))}
