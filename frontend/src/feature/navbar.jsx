@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { LayoutDashboard, Apple, Camera, Wallet, User, Menu, X } from "lucide-react"; // Added Menu and X icons
 import LogoImg from "../assets/Logo.png";
 import Profile from "./profile";
-import Logout from "./Logout";
+import Logout from "./logout";
 
 export default function Navbar() {
   const location = useLocation();
