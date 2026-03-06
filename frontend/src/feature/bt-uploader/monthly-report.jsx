@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '@/config';
+import { API_URL } from '@/config.js';
 
 export default function MonthlyReportModal({ isOpen, onClose, summary }) {
   const [history, setHistory] = useState([]);

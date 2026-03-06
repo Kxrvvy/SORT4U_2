@@ -5,7 +5,7 @@ import Navbar from '../../feature/navbar';
 import CalorieStatsContainer from '../../feature/calorie-tracker/CalorieStatsContainer';
 import TodaysListContainer from '../../feature/calorie-tracker/TodaysListContainer';
 import AddFoodContainer from '../../feature/calorie-tracker/AddFoodContainer';
-import { API_URL } from '@/config';
+import { API_URL } from '@/config.js';
 
 const authHeader = () => ({
   'Content-Type': 'application/json',

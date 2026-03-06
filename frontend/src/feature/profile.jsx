@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { X, LogOut, Camera, User, Loader2 } from 'lucide-react';
-import { API_URL } from '@/config';
+import { API_URL } from '@/config.js';
 
 export default function Profile({ onClose, onLogoutTrigger }) {
   const fileInputRef = useRef(null);
