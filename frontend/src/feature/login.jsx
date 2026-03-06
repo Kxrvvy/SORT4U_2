@@ -3,8 +3,8 @@ import { ArrowLeft, Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import waving from "@/assets/waving.gif";
-import LoginGif from "@/assets/LoginGIF.gif";
 import { API_URL } from '../config.js';
+import { LoginGif } from '@/assets/LoginGIF.gif';
 
 export default function LoginPage() {
   const navigate = useNavigate();
