@@ -53,7 +53,7 @@ export default function Navbar() {
   return (
     <>
       {/* Mobile Toggle Button (Fixed Upper Right) */}
-      <button 
+      <button
         onClick={() => setIsMenuOpen(!isMenuOpen)}
         className="lg:hidden fixed top-4 right-4 z-50 p-2 bg-gray-900 text-white rounded-md border border-gray-700"
       >

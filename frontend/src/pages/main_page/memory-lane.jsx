@@ -91,7 +91,7 @@ export default function MemoryLane() {
 
       <main className="flex-1 ml-0 lg:ml-48 p-5 md:p-8 transition-all duration-300 max-w-auto">
 
-        <header className="text-center mb-10 mt-12 lg:mt-0">
+        <header className="text-center mb-10 mt-4 lg:mt-0">
           <h1 className="text-2xl md:text-3xl font-bold mb-2 uppercase tracking-tight text-gray-900">Memory Lane</h1>
           <p className="text-gray-500 text-sm md:text-lg font-medium">Photo-triggered reminders for the things you always forget</p>
         </header>

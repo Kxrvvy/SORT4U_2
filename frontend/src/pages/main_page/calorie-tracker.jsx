@@ -161,7 +161,7 @@ export default function CalorieTracker() {
       <Navbar />
 
       {/* Main Content Area */}
-      <div className="min-h-screen bg-white ml-0 lg:ml-48 p-4 lg:p-6 pt-16 lg:pt-6 flex-1">
+      <main className="min-h-screen bg-white ml-0 lg:ml-48 p-4 lg:p-6 pt-7 lg:pt-6 flex-1">
         <div className="max-w-auto mx-auto ">
           {/* Header */}
           <h1 className="text-4xl font-bold mb-8">Calorie Tracker</h1>
@@ -194,7 +194,7 @@ export default function CalorieTracker() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
