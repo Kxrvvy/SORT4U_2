@@ -1,12 +1,31 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Wallet } from 'lucide-react';
 import SummaryCard from "./SummaryCard";
 import { AreaChart, Area, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 
 
 
-
 export default function BudgetTrackerCard({ data, onViewDetails }){
-    if(!data) return null;
+    if (!data) return (
+        <div className="bg-gray-300 rounded-3xl shadow-md p-6 min-h-80 flex flex-col">
+            <div className="flex justify-between items-start mb-4">
+                <h2 className="text-xl font-bold">Budget Tracker</h2>
+                <button
+                    onClick={onViewDetails}
+                    className="flex text-sm text-gray-500 font-medium cursor-pointer group"
+                >
+                    <span className="flex items-center gap-0.5 group-hover:border-b group-hover:border-gray-500 pb-px leading-none">
+                        <span>Set Up</span>
+                        <ArrowRight className="w-4 h-4" />
+                    </span>
+                </button>
+            </div>
+            <div className="flex-1 flex flex-col items-center justify-center text-center gap-3">
+                <Wallet className="w-10 h-10 text-gray-400" />
+                <p className="font-semibold text-gray-600">No budget set up yet</p>
+                <p className="text-sm text-gray-400">Go to Budget Tracker to create your first budget cycle.</p>
+            </div>
+        </div>
+    );
 
     const { budget_summary, spending_trends, recent_transactions } = data
 

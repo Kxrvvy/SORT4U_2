@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Flame, ChevronDown, ChevronUp } from 'lucide-react';
+import { API_URL } from '@/config';
 
 const authHeader = () => ({
   'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ export default function CalorieHistoryModal({ onClose }) {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    fetch('/calorie-tracker/history?days=30', { headers: authHeader() })
+    fetch(`${API_URL}/calorie-tracker/history?days=30`, { headers: authHeader() })
       .then(res => {
         if (!res.ok) throw new Error('Failed to load history');
         return res.json();

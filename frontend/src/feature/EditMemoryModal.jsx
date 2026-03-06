@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Camera } from 'lucide-react';
 import axios from 'axios';
+import { API_URL } from '@/config';
 
 export default function EditMemoryModal({ isOpen, memory, onClose, onUpdate }) {
   const [editForm, setEditForm] = useState({
@@ -36,7 +37,7 @@ export default function EditMemoryModal({ isOpen, memory, onClose, onUpdate }) {
       if (editForm.tags) formData.append('tags', editForm.tags);
       if (imageFile) formData.append('image', imageFile);
 
-      const response = await axios.put(`/memory/${memory.id}`, formData, {
+      const response = await axios.put(`${API_URL}/memory/${memory.id}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',

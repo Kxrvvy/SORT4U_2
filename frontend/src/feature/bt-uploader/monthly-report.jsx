@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { API_URL } from '@/config';
 
 export default function MonthlyReportModal({ isOpen, onClose, summary }) {
   const [history, setHistory] = useState([]);
@@ -10,7 +11,7 @@ export default function MonthlyReportModal({ isOpen, onClose, summary }) {
       setLoadingHistory(true);
       try {
         const token = localStorage.getItem('token');
-        const r = await fetch('/budget/history', { headers: { Authorization: `Bearer ${token}` } });
+        const r = await fetch(`${API_URL}/budget/history`, { headers: { Authorization: `Bearer ${token}` } });
         setHistory(r.ok ? await r.json() : []);
       } catch {
         setHistory([]);

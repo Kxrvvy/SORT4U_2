@@ -5,9 +5,10 @@ import Navbar from '../../feature/navbar';
 import EditMemoryModal from '../../feature/EditMemoryModal';
 import axios from 'axios';
 import useInactivityTimeout from '@/hooks/useInactivityTimeout';
+import { API_URL } from '@/config';
 
 export default function MemoryLane() {
-  const API_BASE = '/memory/';
+  const API_BASE = `${API_URL}/memory/`;
    useInactivityTimeout();
   const navigate = useNavigate();
 
@@ -109,7 +110,7 @@ export default function MemoryLane() {
           </div>
 
           <button
-            onClick={() => navigate('/add-memory')}
+            onClick={() => navigate(`/add-memory`)}
             className="hidden sm:flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2.5 rounded-2xl font-bold transition-all active:scale-95"
           >
             <Plus size={18} strokeWidth={3} />

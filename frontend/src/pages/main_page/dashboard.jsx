@@ -1,11 +1,13 @@
 import {useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 import Navbar from './../../feature/navbar';
 import useInactivityTimeout from '@/hooks/useInactivityTimeout';
 import CalorieTrackerCard from '@/feature/home_dashboard/CalorieTrackerCard';
 import BudgetTrackerCard from '@/feature/home_dashboard/BudgetTrackerCard';
 import MemoryLaneCard from '@/feature/home_dashboard/MemoryLaneCard';
+import { API_URL } from '@/config';
 
 
 export default function HomeDashboard() {
@@ -30,7 +32,7 @@ export default function HomeDashboard() {
 
     const fetchDashboard = async () => {
       try {
-        const response = await fetch('/dashboard/overview', {
+        const response = await fetch(`${API_URL}/dashboard/overview`, {
           headers: authHeader()
         })
 

@@ -6,10 +6,12 @@ import ExpenseChart from "../../feature/graphs/expense-chart";
 import MonthlyReportModal from "../../feature/bt-uploader/monthly-report";
 import AreaChart from '../../feature/graphs/AreaChart';
 import useInactivityTimeout from '@/hooks/useInactivityTimeout';
+import { API_URL } from '@/config';
 
 export default function BudgetTracker() {
   useInactivityTimeout();
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isNewCycleOpen, setIsNewCycleOpen] = useState(false);
   const [isReportOpen, setIsReportOpen] = useState(false);
   const [isAddTransaction, setIsAddTransaction] = useState(false);
   const [hasNoBudget, setHasNoBudget] = useState(false);
@@ -35,7 +37,7 @@ export default function BudgetTracker() {
 
   const fetchSummary = async () => {
     try {
-      const response = await fetch('/analytics/summary', { headers: authHeader() });
+      const response = await fetch(`${API_URL}/analytics/summary`, { headers: authHeader() });
 
       if (response.status === 400) {
         // No budget found
@@ -64,7 +66,7 @@ export default function BudgetTracker() {
 
   const fetchTransactions = async () => {
     try {
-      const response = await fetch('/transactions/', { headers: authHeader() });
+      const response = await fetch(`${API_URL}/transactions/`, { headers: authHeader() });
       if (response.ok) {
         const data = await response.json();
         setTransactions(data);
@@ -76,7 +78,7 @@ export default function BudgetTracker() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('/categories/', { headers: authHeader() });
+      const response = await fetch(`${API_URL}/categories/`, { headers: authHeader() });
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
@@ -101,13 +103,38 @@ export default function BudgetTracker() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // Start a new budget cycle
+  const handleNewCycle = async (newAmount, newDuration) => {
+    try {
+      const response = await fetch(`${API_URL}/budget/new-cycle`, {
+        method: 'POST',
+        headers: authHeader(),
+        body: JSON.stringify({
+          budget_amount: parseFloat(newAmount),
+          cycle_duration: newDuration ? parseInt(newDuration) : undefined,
+        }),
+      });
+      if (response.ok) {
+        await fetchSummary();
+        await fetchTransactions();
+        setIsNewCycleOpen(false);
+      } else {
+        const error = await response.json();
+        alert(`Failed to start new cycle: ${error.detail || 'Unknown error'}`);
+      }
+    } catch (error) {
+      console.error('Error starting new cycle:', error);
+      alert('Failed to start new cycle');
+    }
+  };
+
   // Smart handler - calls initialize or update based on state
   const handleConfirmBudget = async (newAmount, newDuration) => {
     try {
       // Determine if this is initial setup or edit
       const isInitialSetup = hasNoBudget || !summary.budget_amount || summary.budget_amount === 0;
 
-      const endpoint = isInitialSetup ? '/budget/initialize' : '/budget/';
+      const endpoint = isInitialSetup ? `${API_URL}/budget/initialize` : `${API_URL}/budget/`;
       const method = isInitialSetup ? 'POST' : 'PUT';
 
       const body = isInitialSetup
@@ -145,7 +172,7 @@ export default function BudgetTracker() {
 
   const handleAddTransaction = async (transactionData) => {
     try {
-      const response = await fetch('/transactions/', {
+      const response = await fetch(`${API_URL}/transactions/`, {
         method: 'POST',
         headers: authHeader(),
         body: JSON.stringify({
@@ -223,6 +250,24 @@ export default function BudgetTracker() {
         <header className="mb-8">
           <h1 className="text-3xl font-bold text-black">Budget Tracker</h1>
         </header>
+
+        {/* Expired cycle banner */}
+        {summary.days_remaining < 0 && (
+          <div className="bg-amber-100 border border-amber-300 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
+            <div>
+              <p className="font-semibold text-amber-800">Your budget cycle has ended.</p>
+              <p className="text-sm text-amber-600">
+                Cycle ended on {new Date(summary.cycle_end_date).toLocaleDateString()}. Start a new cycle to keep tracking.
+              </p>
+            </div>
+            <button
+              onClick={() => setIsNewCycleOpen(true)}
+              className="bg-amber-500 hover:bg-amber-600 text-white px-5 py-2 rounded-full text-sm font-semibold transition-colors shrink-0"
+            >
+              Start New Cycle
+            </button>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 space-y-6">
@@ -319,6 +364,14 @@ export default function BudgetTracker() {
           isOpen={isEditOpen}
           onClose={() => setIsEditOpen(false)}
           onConfirm={handleConfirmBudget}
+          currentBudget={summary.budget_amount}
+          isInitialSetup={false}
+        />
+
+        <EditBudgetModal
+          isOpen={isNewCycleOpen}
+          onClose={() => setIsNewCycleOpen(false)}
+          onConfirm={handleNewCycle}
           currentBudget={summary.budget_amount}
           isInitialSetup={false}
         />

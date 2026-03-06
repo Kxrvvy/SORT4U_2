@@ -1,4 +1,6 @@
-const API_BASE_URL = 'http://127.0.0.1:8000'; // Change this to your backend URL
+import { API_URL } from "@/config";
+
+const API_BASE_URL = API_URL; // Change this to your backend URL
 
 // Helper function to get auth token (adjust based on your auth setup)
 const getAuthToken = () => {

@@ -3,6 +3,7 @@ import { ArrowLeft, Image } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginHello from "@/assets/LoginHello.png";
+import { API_URL } from '@/config';
 
 
 export default function LoginPage() {
@@ -59,7 +60,7 @@ export default function LoginPage() {
     setApiError('');
 
     try {
-      const response = await axios.post('/auth/login', {
+      const response = await axios.post(`${API_URL}/auth/login`, {
         email: formData.email,
         password: formData.password,
       });

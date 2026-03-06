@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Flame, Loader2 } from 'lucide-react';
+import { API_URL } from '@/config';
 
 export default function AddFoodContainer({ onAddFood }) {
   const [foodInput, setFoodInput] = useState('');
@@ -12,7 +13,7 @@ export default function AddFoodContainer({ onAddFood }) {
     setLoading(true);
     setError('');
     try {
-      const res = await fetch('/calorie-tracker/lookup', {
+      const res = await fetch(`${API_URL}/calorie-tracker/lookup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,7 +37,7 @@ export default function AddFoodContainer({ onAddFood }) {
   const handleConfirm = async () => {
     setLoading(true);
     try {
-      const res = await fetch('/calorie-tracker/add', {
+      const res = await fetch(`${API_URL}/calorie-tracker/add`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

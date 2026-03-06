@@ -5,6 +5,7 @@ import Navbar from '../../feature/navbar';
 import CalorieStatsContainer from '../../feature/calorie-tracker/CalorieStatsContainer';
 import TodaysListContainer from '../../feature/calorie-tracker/TodaysListContainer';
 import AddFoodContainer from '../../feature/calorie-tracker/AddFoodContainer';
+import { API_URL } from '@/config';
 
 const authHeader = () => ({
   'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ export default function CalorieTracker() {
     if (!token) { navigate('/login'); return; }
 
     // Fetch today's food entries
-    fetch('/calorie-tracker/today', { headers: authHeader() })
+    fetch(`${API_URL}/calorie-tracker/today`, { headers: authHeader() })
       .then(res => {
         if (res.status === 401) { navigate('/login'); return null; }
         if (!res.ok) return null;
@@ -56,7 +57,7 @@ export default function CalorieTracker() {
       .catch(err => console.error("Failed to load today's entries:", err));
 
     // Fetch calorie goal — always resolves so goalLoaded is always set
-    fetch('/calorie-tracker/goal', { headers: authHeader() })
+    fetch(`${API_URL}/calorie-tracker/goal`, { headers: authHeader() })
       .then(res => res.ok ? res.json() : { calorie_goal: null })
       .then(data => setBaseGoal(data.calorie_goal))
       .catch(() => setBaseGoal(null))
@@ -66,7 +67,7 @@ export default function CalorieTracker() {
   // Save goal to backend and update local state
   const handleUpdateBaseGoal = async (newGoal) => {
     try {
-      const res = await fetch('/calorie-tracker/goal', {
+      const res = await fetch(`${API_URL}/calorie-tracker/goal`, {
         method: 'PUT',
         headers: authHeader(),
         body: JSON.stringify({ calorie_goal: newGoal }),
@@ -104,7 +105,7 @@ export default function CalorieTracker() {
     const itemToRemove = todaysList.find(item => item.id === id);
     if (!itemToRemove) return;
     try {
-      await fetch(`/calorie-tracker/${id}`, { method: 'DELETE', headers: authHeader() });
+      await fetch(`${API_URL}/calorie-tracker/${id}`, { method: 'DELETE', headers: authHeader() });
       setTodaysList(prev => prev.filter(item => item.id !== id));
       setFoodCount(prev => Math.max(0, prev - 1));
       setTotalCalories(prev => Math.max(0, prev - itemToRemove.calories));

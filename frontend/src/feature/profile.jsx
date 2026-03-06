@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { X, LogOut, Camera, User, Loader2 } from 'lucide-react';
+import { API_URL } from '@/config';
 
 export default function Profile({ onClose, onLogoutTrigger }) {
   const fileInputRef = useRef(null);
@@ -21,7 +22,7 @@ export default function Profile({ onClose, onLogoutTrigger }) {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/api/profile/${userId}`);
+        const response = await fetch(`${API_URL}/api/profile/${userId}`);
         if (response.ok) {
           const data = await response.json();
           setProfileData({
@@ -43,7 +44,7 @@ export default function Profile({ onClose, onLogoutTrigger }) {
   const saveProfile = async (dataToSave) => {
     setSaving(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/profile/${userId}`, {
+      const response = await fetch(`${API_URL}/api/profile/${userId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataToSave),
