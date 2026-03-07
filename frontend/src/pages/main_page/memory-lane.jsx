@@ -86,7 +86,7 @@ export default function MemoryLane() {
   });
 
   return (
-    <div className="flex min-h-screen bg-white font-sans text-gray-800">
+    <div className="flex min-h-dvh bg-white font-sans text-gray-800">
       <Navbar />
 
       <main className="flex-1 ml-0 lg:ml-48 p-5 md:p-8 transition-all duration-300 max-w-auto">
