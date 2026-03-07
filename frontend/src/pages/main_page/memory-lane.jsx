@@ -230,7 +230,7 @@ export default function MemoryLane() {
                   </div>
 
                   {/* Hover Overlay — desktop only (lg+) */}
-                  <div className="hidden lg:flex absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex-col items-center justify-center gap-3 px-6">
+                  <div className={`hidden lg:flex absolute inset-0 bg-black/60 transition-opacity flex-col items-center justify-center gap-3 px-6 ${activeCard === memory.id ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'}`}>
                     <div className="flex gap-3 w-full">
                       <button
                         onClick={(e) => { e.stopPropagation(); deleteMemory(memory.id); }}
