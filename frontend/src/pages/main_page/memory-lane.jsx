@@ -298,20 +298,6 @@ export default function MemoryLane() {
         onUpdate={handleUpdateSuccess}
       />
 
-      <style dangerouslySetInnerHTML={{ __html: `
-        body:has(.translate-x-0) #mobile-add-btn {
-          opacity: 0;
-          pointer-events: none;
-          transform: scale(0.5) translateY(20px);
-        }
-        @keyframes scaleUp {
-          from { opacity: 0; transform: scale(0.95); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        .scale-up-center {
-          animation: scaleUp 0.15s ease-out;
-        }
-      `}} />
     </div>
   );
 }
