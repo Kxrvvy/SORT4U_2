@@ -63,6 +63,7 @@ const PictureUpload = ({ onFileSelect, uploadedImage }) => {
             src={uploadedImage}
             alt="Uploaded preview"
             className="w-full h-full object-cover rounded-lg"
+            style={{ imageOrientation: 'from-image' }}
           />
         ) : (
           <>
