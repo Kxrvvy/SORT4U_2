@@ -16,7 +16,7 @@ cloudinary.config(
 
 def upload_image(file):
     try:
-        result = cloudinary.uploader.upload(file)
+        result = cloudinary.uploader.upload(file, exif=True)
         return result.get("secure_url")
     except Exception as e:
         print(f"Cloudinary upload error: {e}")

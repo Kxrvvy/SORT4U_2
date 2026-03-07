@@ -142,12 +142,13 @@ export default function MemoryLane() {
                   className="group relative border rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all bg-white flex flex-col border-gray-100"
                   onClick={() => setActiveCard(activeCard === memory.id ? null : memory.id)}
                 >
-                  <div className="aspect-video bg-gray-50 flex items-center justify-center border-b border-gray-100 overflow-hidden" style={{ maxHeight: '140px' }}>
+                  <div className="h-40 bg-gray-50 flex items-center justify-center border-b border-gray-100 overflow-hidden">
                     {memory.image_url ? (
                       <img
                         src={memory.image_url}
                         alt="memory"
                         className={`w-full h-full object-cover transition-opacity duration-300 ${memory.is_completed ? 'opacity-50 grayscale' : 'opacity-100'}`}
+                        style={{ imageOrientation: 'from-image' }}
                       />
                     ) : (
                       <ImageIcon className="text-gray-300" size={32} />
