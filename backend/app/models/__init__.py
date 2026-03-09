@@ -1,4 +1,4 @@
-from .user import User
+from .user import User, PendingUser
 from .memory import Memory
 from .profile import Profile
 from .category import Category
