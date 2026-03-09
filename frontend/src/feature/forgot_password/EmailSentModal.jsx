@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import EmailSentGIF from "@/assets/EmailSent.gif";
+import { API_URL } from '@/config.js';
 
 export default function EmailConfirmationPopup({ email, onClose }) {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -15,7 +16,7 @@ export default function EmailConfirmationPopup({ email, onClose }) {
     if (resendTimer > 0) return; // Prevent spamming
 
       try {
-        await axios.post('http://localhost:8000/auth/resend-otp', { email });
+        await axios.post(`${API_URL}/auth/resend-otp`, { email });
         setResendTimer(60); // Start 60-second countdown
         setError(""); // Clear any previous errors
         
@@ -63,7 +64,7 @@ export default function EmailConfirmationPopup({ email, onClose }) {
 
     try {
       setError("");
-      await axios.post('http://localhost:8000/auth/verify-otp', { email, otp: otpString });
+      await axios.post(`${API_URL}/auth/verify-otp`, { email, otp: otpString });
       navigate('/reset-password', { state: { email } });
     } catch (err) {
       console.error("Validation Error:", err.response?.data);

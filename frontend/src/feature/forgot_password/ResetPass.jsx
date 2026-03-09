@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom'
 import axios from 'axios';
 import BackgroundDecorations from "@/components/BackgroundDesign";
+import { API_URL } from '@/config.js';
 import ResetPassGIF from "@/assets/ResetPass.gif";
 import ConfirmationPopup from "@/feature/forgot_password/ConfirmationModal";
 import { Eye, EyeOff } from 'lucide-react';
@@ -54,7 +55,7 @@ export default function ResetPassword() {
   }
 
   try {
-    await axios.post('http://localhost:8000/auth/reset-password', {
+    await axios.post(`${API_URL}/auth/reset-password`, {
       email: email,       
       new_password: password
     });

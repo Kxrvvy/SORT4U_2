@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import Signup from "@/assets/SignupGIF.gif";
 import SignupMB from "@/assets/SignupMB.gif";
 import axios from 'axios';
 import LSBackgroundDecorations from "@/components/LSBackDeco";
 import SignupEmailVerModal from "@/feature/signup_verify/SignupEmailVer";
 import CreatedAccount from "@/feature/signup_verify/CreatedAccountModal";
+import Signup from '@/assets/SignupGIF.gif';
+import { API_URL } from '@/config.js';
 
 export default function SignupPage() {
 const navigate = useNavigate();
@@ -61,7 +62,7 @@ const [showPassword, setShowPassword] = useState(false);
 
     try {
       // 2. Initial Signup request
-      await axios.post('/auth/signup', {
+      await axios.post(`${API_URL}/auth/signup`, {
         full_name: formData.name,
         email: formData.email,
         password: formData.password,
@@ -78,13 +79,13 @@ const [showPassword, setShowPassword] = useState(false);
   const handleVerify = async (otp) => {
     try {
       // 1. Verify OTP - Must use full URL and correct payload object
-      await axios.post('http://localhost:8000/auth/verify-signup-otp', { 
+      await axios.post(`${API_URL}/auth/verify-signup-otp`, { 
         email: formData.email, 
         otp: otp 
       });
       
       // 2. Login
-      const loginResponse = await axios.post('http://localhost:8000/auth/login', {
+      const loginResponse = await axios.post(`${API_URL}/auth/login`, {
         email: formData.email,
         password: formData.password
       });
@@ -106,7 +107,7 @@ const [showPassword, setShowPassword] = useState(false);
   };
 
   return (
-    <div className="h-[100dvh] w-full bg-white flex items-center justify-center p-4 sm:p-8 overflow-hidden">
+    <div className="h-dvh w-full bg-white flex items-center justify-center p-4 sm:p-8 overflow-hidden">
       <LSBackgroundDecorations />
       <div className="w-full max-w-6xl flex flex-col lg:flex-row gap-8 items-center justify-center h-full">
 
@@ -118,7 +119,7 @@ const [showPassword, setShowPassword] = useState(false);
         </Link>
 
         {/* Form Container: Now a contained box on both mobile and desktop */}
-        <div className="w-full max-w-[450px] lg:max-w-none lg:flex-1 bg-gray-200 rounded-[2rem] p-6 sm:p-12 relative order-1 shadow-xl lg:shadow-none">
+        <div className="w-full max-w-112.5 lg:max-w-none lg:flex-1 bg-gray-200 rounded-4xl p-6 sm:p-12 relative order-1 shadow-xl lg:shadow-none">
           
           <div className="max-w-md mx-auto w-full">
             <header className="text-center mb-6 sm:mb-8">

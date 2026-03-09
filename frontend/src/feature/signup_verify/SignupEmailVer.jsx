@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import axios from 'axios';
 import EmailSentGIF from "@/assets/EmailSent.gif";
+import { API_URL } from '@/config.js';
 
 export default function SignupEmailVerModal({ email, onVerify, onClose }) {
   const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -47,7 +48,7 @@ export default function SignupEmailVerModal({ email, onVerify, onClose }) {
   const handleResend = async () => {
     if (resendTimer > 0) return;
     try {
-      await axios.post('http://localhost:8000/auth/resend-signup-otp', { email });
+      await axios.post(`${API_URL}/auth/resend-signup-otp`, { email });
       setResendTimer(60);
       setError("");
     } catch {

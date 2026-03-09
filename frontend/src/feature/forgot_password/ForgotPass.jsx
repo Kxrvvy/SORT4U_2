@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import ForgotPassGIF from "@/assets/ForgotPass.gif";
+import { API_URL } from '@/config.js';
 import BackgroundDecorations from "@/components/BackgroundDesign";
 import EmailSentModal from "@/feature/forgot_password/EmailSentModal";
 
@@ -17,7 +18,7 @@ export default function ForgotPassword() {
     setError(''); 
 
     try {
-      await axios.post('http://localhost:8000/auth/forgot-password', { email }, {
+      await axios.post(`${API_URL}/auth/forgot-password`, { email }, {
         headers: { 'Content-Type': 'application/json' }
       });
       setIsSent(true);
