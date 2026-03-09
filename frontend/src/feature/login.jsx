@@ -3,6 +3,7 @@ import { ArrowLeft, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import LoginGif from "@/assets/LoginGif.gif";
+import { API_URL } from '@/config.js';
 import waving from "@/assets/waving.gif";
 import LSBackgroundDecorations from "@/components/LSBackDeco";
 
@@ -63,7 +64,7 @@ const handleSubmit = async (e) => {
   setApiError('');
 
   try {
-    const response = await axios.post('/auth/login', {
+    const response = await axios.post(`${API_URL}/auth/login`, {
       email: formData.email,
       password: formData.password,
     });
