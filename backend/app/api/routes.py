@@ -38,7 +38,11 @@ def signup(user_data: UserCreate, db: Session = Depends(get_db)):
     db.commit()
 
     # Send the email
-    send_verify_email(user_data.email, otp)
+    try:
+        send_verify_email(user_data.email, otp)
+    except Exception as e:
+        print(f"SMTP Error: {e}")
+        raise HTTPException(status_code=500, detail="Failed to send verification email. Please try again.")
 
     return {"message": "Verification code sent to your email."}
     

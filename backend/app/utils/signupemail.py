@@ -4,7 +4,7 @@ from email.message import EmailMessage
 
 def send_verify_email(user_email: str, otp_code: str):
     smtp_server = "smtp.gmail.com"
-    smtp_port = 465
+    smtp_port = 587
     sender_email = "sort4uu@gmail.com"
     sender_password = "lydz kuzd acra fbsl".replace(" ", "")
 
@@ -23,6 +23,7 @@ This code will expire in 10 minutes.
 If you did not create an account, please ignore this email.
 """)
 
-    with smtplib.SMTP_SSL(smtp_server, smtp_port) as smtp:
+    with smtplib.SMTP(smtp_server, smtp_port) as smtp:
+        smtp.starttls()
         smtp.login(sender_email, sender_password)
         smtp.send_message(msg)
