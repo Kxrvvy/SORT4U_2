@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { ArrowLeft, Loader2, Eye, EyeOff } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import Signup from "@/assets/SignupGif.gif";
+import Signup from "@/assets/SignupGIF.gif";
 import SignupMB from "@/assets/SignupMB.gif";
 import axios from 'axios';
 import LSBackgroundDecorations from "@/components/LSBackDeco";
