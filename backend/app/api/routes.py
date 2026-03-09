@@ -26,15 +26,23 @@ def signup(user_data: UserCreate, db: Session = Depends(get_db)):
 
     # Generate OTP and store in PendingUser
     otp = generate_otp()
-    pending_user = PendingUser(
-        email=user_data.email,
-        full_name=user_data.full_name,
-        hashed_password=get_password_hash(user_data.password),
-        otp=otp
-    )
+    hashed_pw = get_password_hash(user_data.password)
 
-    # Use merge or handle existing pending entry to avoid UniqueConstraint errors
-    db.merge(pending_user)
+    existing_pending = db.query(PendingUser).filter(PendingUser.email == user_data.email).first()
+    if existing_pending:
+        existing_pending.full_name = user_data.full_name
+        existing_pending.hashed_password = hashed_pw
+        existing_pending.otp = otp
+        existing_pending.expires_at = datetime.now() + timedelta(minutes=10)
+    else:
+        pending_user = PendingUser(
+            email=user_data.email,
+            full_name=user_data.full_name,
+            hashed_password=hashed_pw,
+            otp=otp,
+            expires_at=datetime.now() + timedelta(minutes=10)
+        )
+        db.add(pending_user)
     db.commit()
 
     # Send the email
