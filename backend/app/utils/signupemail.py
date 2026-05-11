@@ -41,7 +41,7 @@ def send_verify_email(user_email: str, otp_code: str):
         subject = "Verify Your SORT4U Account"
         sender = {
             "name": os.getenv("BREVO_FROM_NAME", "SORT4U"),
-            "email": os.getenv("BREVO_FROM_EMAIL", "sort4uu@gmail.com")
+            "email": os.getenv("BREVO_FROM_EMAIL", "sort.four.u@gmail.com")
         }
         to = [{"email": user_email}]
         
