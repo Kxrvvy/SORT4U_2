@@ -1,4 +1,4 @@
-''' SENDGRID CODE IF EVER YOU WANT TO CHANGE THIS BACK
+''' SENDGRID CODE IF EVER YOU WANT TO CHANGE THIS BACK AND USE SENDGRID AGAIN
 import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
