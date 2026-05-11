@@ -38,7 +38,7 @@ def send_reset_email(user_email: str, otp_code: str):
         subject = "Reset Your SORT4U Password"
         sender = {
             "name": os.getenv("BREVO_FROM_NAME", "SORT4U"),
-            "email": os.getenv("BREVO_FROM_EMAIL", "sort4uu@gmail.com")
+            "email": os.getenv("BREVO_FROM_EMAIL", "sort.four.u@gmail.com")
         }
         to = [{"email": user_email}]
         
