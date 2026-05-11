@@ -23,7 +23,7 @@ import os
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 
-def send_password_reset_email(user_email: str, otp_code: str):
+def send_reset_email(user_email: str, otp_code: str):
     """
     Send password reset OTP email using Brevo (Sendinblue)
     """
