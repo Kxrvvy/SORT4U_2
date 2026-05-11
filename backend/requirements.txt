@@ -13,3 +13,4 @@ python-dotenv
 psycopg2-binary
 cloudinary
 sendgrid
+sib-api-v3-sdk
